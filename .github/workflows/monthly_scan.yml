@@ -1,33 +1,29 @@
-name: Monthly Crypto Scanner
+name: Run Crypto Scanner
 
 on:
-  # Runs at 00:05 UTC on the 1st of every month
   schedule:
-    - cron: "5 0 1 * *"
-
-  # Also allows manual trigger from GitHub Actions tab
+    - cron: '5 0 1 * *'
   workflow_dispatch:
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python 3.11
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
+          python-version: '3.11'
+          
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Run Monthly Scanner
+        
+      - name: Run scanner
         env:
-          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
-          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
         run: python scanner.py
