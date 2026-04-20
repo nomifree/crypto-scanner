@@ -29,14 +29,13 @@ def get_top_200_coins():
     response.raise_for_status()
     return response.json()
 
-def get_monthly_ohlc(coin_id):
-    """Fetches 120 days of daily data and converts it to Monthly OHLC."""
+def get_daily_data(coin_id):
+    """Fetches 120 days of daily data to be mathematically converted later."""
     url = f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart"
     params = {"vs_currency": "usd", "days": "120", "interval": "daily"}
     
     response = requests.get(url, headers=HEADERS, params=params)
     
-    # Rate limit protection
     if response.status_code == 429:
         print(f"Rate limited on {coin_id}. Sleeping for 30 seconds...")
         time.sleep(30)
@@ -46,18 +45,16 @@ def get_monthly_ohlc(coin_id):
     if 'prices' not in data or len(data['prices']) == 0:
         return None
 
-    # Pandas Resampling
     df = pd.DataFrame(data['prices'], columns=['timestamp', 'price'])
     df['datetime'] = pd.to_datetime(df['timestamp'], unit='ms')
     df.set_index('datetime', inplace=True)
     
-    monthly_ohlc = df['price'].resample('ME').ohlc()
-    return monthly_ohlc
+    return df
 
 def check_alpha_insights_logic(df):
     """Applies the Pine Script SMC Logic."""
     if df is None or len(df) < 3:
-        return False, "Not enough data"
+        return False, None, None
 
     current_close = df['close'].iloc[-1]
     
@@ -68,20 +65,36 @@ def check_alpha_insights_logic(df):
     p2H = df['high'].iloc[-3]
     p2L = df['low'].iloc[-3]
 
+    # Structural Logic
     logic1_bull = pC > p2H
     logic2_bull = (pL < p2L) and (pC > p2L)
     is_bullish = logic1_bull or logic2_bull
 
-    eq_05 = (pH + pL) / 2
-    is_discount = current_close < eq_05
+    logic1_bear = pC < p2L
+    logic2_bear = (pH > p2H) and (pC < p2H)
+    is_bearish = logic1_bear or logic2_bear
 
-    bias_text = "BULLISH" if is_bullish else "BEARISH / NEUTRAL"
-    pricing_text = "DISCOUNT (< 0.5)" if is_discount else "PREMIUM (> 0.5)"
+    # Strict Fibonacci 0.5 Retracement Math
+    # Formula: Swing Low + (Distance from High to Low * 0.5)
+    fib_05 = pL + ((pH - pL) * 0.5)
     
-    # Edge Condition: Must be structurally Bullish AND in a Discount
-    qualified = is_bullish and is_discount
+    # Pricing Zone
+    is_discount = current_close < fib_05
+
+    if is_bullish:
+        bias_text = "🟢 BULLISH"
+    elif is_bearish:
+        bias_text = "🔴 BEARISH"
+    else:
+        bias_text = "⚪ NEUTRAL"
+
+    pricing_text = "🟢 DISCOUNT (< 0.5)" if is_discount else "🔴 PREMIUM (> 0.5)"
     
-    return qualified, f"{bias_text} | {pricing_text}"
+    # NEW RULE: If it has ANY valid structure (Bullish OR Bearish), flag it. 
+    # Ignore whether it is Premium or Discount for the filter, leave that to the user.
+    qualified = is_bullish or is_bearish
+    
+    return qualified, bias_text, pricing_text
 
 def write_to_sheets(results):
     print("\n📤 Writing to Google Sheets...")
@@ -95,36 +108,49 @@ def write_to_sheets(results):
     
     worksheet.clear() 
     
-    headers = ["Coin", "Symbol", "Current Price", "Macro Bias & Pricing"]
+    # Upgraded Headers
+    headers = ["Coin", "Symbol", "Timeframe", "Current Price", "Market Structure", "Fib Pricing Zone"]
     worksheet.append_row(headers)
     
     if results:
         worksheet.append_rows(results)
         print(f"✅ Successfully wrote {len(results)} setups to Sheets.")
     else:
-        worksheet.append_row(["No qualified setups found this month.", "", "", ""])
-        print("✅ No setups found. Wrote empty status to Sheets.")
+        worksheet.append_row(["No setups found.", "", "", "", "", ""])
 
 def main():
     coins = get_top_200_coins()
     qualified_setups = []
     
-    print("🔍 Starting Alpha Insights Market Scan...")
+    print("🔍 Starting Multi-Timeframe SMC Scan...")
     
     for index, coin in enumerate(coins):
         coin_id = coin['id']
         symbol = coin['symbol'].upper()
         current_price = coin['current_price']
         
-        # 3-second delay ensures we stay well under the 30 calls/min free limit
-        time.sleep(3) 
+        time.sleep(3) # API protection
         
-        df = get_monthly_ohlc(coin_id)
-        qualified, logic_text = check_alpha_insights_logic(df)
+        df_daily = get_daily_data(coin_id)
+        if df_daily is None:
+            continue
+            
+        # 1. MONTHLY SCAN (Top 200 - All Coins)
+        df_monthly = df_daily['price'].resample('ME').ohlc()
+        m_qual, m_bias, m_price = check_alpha_insights_logic(df_monthly)
         
-        if qualified:
-            print(f"🚨 SETUP FOUND: {symbol} -> {logic_text}")
-            qualified_setups.append([coin['name'], symbol, current_price, logic_text])
+        if m_qual:
+            print(f"🚨 MONTHLY SETUP: {symbol} -> {m_bias} | {m_price}")
+            qualified_setups.append([coin['name'], symbol, "1M", current_price, m_bias, m_price])
+            
+        # 2. WEEKLY SCAN (Top 100 Only)
+        if index < 100:
+            df_weekly = df_daily['price'].resample('W-MON').ohlc() # Weekly starting on Monday
+            w_qual, w_bias, w_price = check_alpha_insights_logic(df_weekly)
+            
+            if w_qual:
+                print(f"🚨 WEEKLY SETUP: {symbol} -> {w_bias} | {w_price}")
+                qualified_setups.append([coin['name'], symbol, "1W", current_price, w_bias, w_price])
             
         if (index + 1) % 50 == 0:
             print(f"...Scanned {index + 1}/200 coins...")
