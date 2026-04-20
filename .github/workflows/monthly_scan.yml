@@ -2,8 +2,10 @@ name: Run Crypto Scanner
 
 on:
   schedule:
-    - cron: '5 0 1 * *'
-  workflow_dispatch:
+    # 00:15 UTC is 05:15 AM PKT
+    - cron: '15 0 * * 1'   # Every Monday morning
+    - cron: '15 0 1 * *'   # Every 1st of the month
+  workflow_dispatch:       # Manual trigger button
 
 jobs:
   scan:
