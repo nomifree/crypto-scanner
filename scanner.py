@@ -51,7 +51,10 @@ def get_mexc_data(symbol):
     if not data or isinstance(data, dict): return None
         
     df = pd.DataFrame(data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'qav'])
-    df['datetime'] = pd.to_datetime(df['timestamp'], unit='s')
+    
+    # THE FIX: MEXC uses milliseconds, so unit='ms'
+    df['datetime'] = pd.to_datetime(df['timestamp'], unit='ms') 
+    
     df.set_index('datetime', inplace=True)
     return df[['open', 'high', 'low', 'close']].astype(float)
 
