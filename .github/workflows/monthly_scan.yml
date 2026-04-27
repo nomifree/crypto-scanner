@@ -2,9 +2,9 @@ name: Run Crypto Scanner
 
 on:
   schedule:
-    # 00:15 UTC is 05:15 AM PKT
-    - cron: '15 0 * * 1'   # Every Monday morning
-    - cron: '15 0 1 * *'   # Every 1st of the month
+    # 00:17 UTC is 05:17 AM PKT (Bypasses GitHub server congestion)
+    - cron: '17 0 * * 1'   # Every Monday morning
+    - cron: '17 0 1 * *'   # Every 1st of the month
   workflow_dispatch:       # Manual trigger button
 
 jobs:
