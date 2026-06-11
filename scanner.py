@@ -50,9 +50,9 @@ def get_top_coins(limit):
     url = "https://api.coingecko.com/api/v3/coins/markets"
     coins = []
     page = 1
+    per_page = 250
 
     while len(coins) < limit:
-        per_page = min(250, limit - len(coins))
         params = {
             "vs_currency": "usd",
             "order": "market_cap_desc",
@@ -222,9 +222,25 @@ def get_waterfall_data(coin_id, symbol):
 
 
 # --- ICT SMC LOGIC & SETUP GRADING ---
+def make_utc_naive_index(index):
+    if index.tz is not None:
+        return index.tz_convert("UTC").tz_localize(None)
+    return index
+
+
+def make_utc_naive_timestamp(timestamp):
+    if timestamp.tzinfo is not None:
+        return timestamp.tz_convert("UTC").tz_localize(None)
+    return timestamp
+
+
 def remove_incomplete_period(df, resolution, now_utc):
     if df is None or df.empty:
         return df
+
+    df = df.copy()
+    df.index = make_utc_naive_index(df.index)
+    now_utc = make_utc_naive_timestamp(now_utc)
 
     if resolution == "Monthly":
         current_period = now_utc.to_period("M")
@@ -310,7 +326,8 @@ def write_to_dynamic_tab(results, tab_name):
         ws = sh.worksheet(tab_name)
         ws.clear()
     except gspread.exceptions.WorksheetNotFound:
-        ws = sh.add_worksheet(title=tab_name, rows="300", cols="10", index=0)
+        row_count = str(max(len(results) + 10, 500))
+        ws = sh.add_worksheet(title=tab_name, rows=row_count, cols="10", index=0)
 
     headers = [
         "Timestamp",
@@ -363,7 +380,8 @@ def main():
     today_str = now_pkt.strftime("%Y-%m-%d")
 
     is_monthly_run, is_weekly_run = should_run(now_pkt)
-    coins = get_top_coins(MONTHLY_COIN_LIMIT)
+    coin_limit = MONTHLY_COIN_LIMIT if is_monthly_run else WEEKLY_COIN_LIMIT
+    coins = get_top_coins(coin_limit)
     monthly_results = []
     weekly_results = []
 
