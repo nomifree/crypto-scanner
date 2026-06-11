@@ -2,27 +2,33 @@ name: Run Crypto Scanner
 
 on:
   schedule:
-    # 00:17 UTC is 05:17 AM PKT (Bypasses GitHub server congestion)
-    - cron: '17 0 * * 1'   # Every Monday morning
-    - cron: '17 0 1 * *'   # Every 1st of the month
-  workflow_dispatch:       # Manual trigger button
+    - cron: '17 0 * * 1'
+    - cron: '17 0 1 * *'
+  workflow_dispatch:
+
+concurrency:
+  group: crypto-scanner
+  cancel-in-progress: false
 
 jobs:
   scan:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install dependencies
         run: pip install -r requirements.txt
-        
+
+      - name: Validate code
+        run: |
+          python -m py_compile scanner.py crypto_scanner/*.py
+          pytest
+
       - name: Run scanner
         env:
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
