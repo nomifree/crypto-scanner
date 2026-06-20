@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
 
 import pandas as pd
 
@@ -47,7 +46,14 @@ HIGH_ALIASES = {"high", "<high>"}
 LOW_ALIASES = {"low", "<low>"}
 CLOSE_ALIASES = {"close", "<close>"}
 VOLUME_ALIASES = {"volume", "tick_volume", "real_volume", "<tickvol>", "<vol>", "vol"}
-YAHOO_CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
+YAHOO_CHART_URLS = [
+    "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}",
+    "https://query2.finance.yahoo.com/v8/finance/chart/{symbol}",
+]
+YAHOO_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/125 Safari/537.36",
+    "Accept": "application/json,text/plain,*/*",
+}
 
 
 def previous_weekday(day: pd.Timestamp) -> pd.Timestamp:
@@ -110,17 +116,32 @@ def normalize_market_csv(path: Path) -> pd.DataFrame:
 def fetch_yahoo_ohlc(symbol: str, range_period: str = "2y") -> pd.DataFrame:
     import requests
 
-    url = YAHOO_CHART_URL.format(symbol=quote(symbol, safe=""))
-    response = requests.get(
-        url,
-        params={"range": range_period, "interval": "1d", "includePrePost": "false", "events": "history"},
-        timeout=20,
-    )
-    response.raise_for_status()
-    payload = response.json()
+    errors = []
+    payload = None
+    for template in YAHOO_CHART_URLS:
+        url = template.format(symbol=symbol)
+        try:
+            response = requests.get(
+                url,
+                params={"range": range_period, "interval": "1d", "includePrePost": "false", "events": "history"},
+                headers=YAHOO_HEADERS,
+                timeout=30,
+            )
+            if response.status_code != 200:
+                errors.append(f"{response.url} returned HTTP {response.status_code}: {response.text[:120]}")
+                continue
+            payload = response.json()
+            break
+        except Exception as exc:
+            errors.append(f"{url}: {exc}")
+
+    if payload is None:
+        raise ValueError("; ".join(errors) or "Yahoo request failed")
+
     result = payload.get("chart", {}).get("result") or []
     if not result:
-        raise ValueError("No Yahoo chart result")
+        error = payload.get("chart", {}).get("error")
+        raise ValueError(f"No Yahoo chart result: {error}")
 
     chart = result[0]
     timestamps = chart.get("timestamp") or []
@@ -191,7 +212,7 @@ def _missing_loaded(instrument: MarketInstrument, expected: pd.Timestamp, action
         "",
         expected.strftime("%Y-%m-%d"),
         0,
-        "None",
+        quality,
     )
 
 
@@ -218,7 +239,7 @@ def load_market_data(
 
     path = instrument.csv_path
     if not path.exists():
-        action = "Auto fetch failed; add CSV export" if auto_error else "Add CSV export"
+        action = f"Auto fetch failed: {auto_error[:180]}; add CSV export" if auto_error else "Add CSV export"
         quality = "Auto Fetch Failed" if auto_error else "Missing File"
         return _missing_loaded(instrument, expected, action, quality)
 
