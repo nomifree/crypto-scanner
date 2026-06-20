@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import quote
 
 import pandas as pd
 
@@ -19,6 +20,8 @@ class MarketInstrument:
     shariah_status: str
     risk_note: str
     close_hour_pkt: int
+    auto_symbol: str | None = None
+    auto_source: str = "Yahoo Finance"
 
     @property
     def csv_path(self) -> Path:
@@ -35,6 +38,7 @@ class LoadedMarketData:
     last_available: str
     expected_closed: str
     rows_loaded: int
+    source: str
 
 
 DATE_ALIASES = {"date", "time", "datetime", "<date>", "timestamp"}
@@ -43,6 +47,7 @@ HIGH_ALIASES = {"high", "<high>"}
 LOW_ALIASES = {"low", "<low>"}
 CLOSE_ALIASES = {"close", "<close>"}
 VOLUME_ALIASES = {"volume", "tick_volume", "real_volume", "<tickvol>", "<vol>", "vol"}
+YAHOO_CHART_URL = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
 
 
 def previous_weekday(day: pd.Timestamp) -> pd.Timestamp:
@@ -102,20 +107,120 @@ def normalize_market_csv(path: Path) -> pd.DataFrame:
     return df[["open", "high", "low", "close", "volume"]]
 
 
-def load_market_data(instrument: MarketInstrument, now_utc: pd.Timestamp, min_rows: int = 60) -> LoadedMarketData:
+def fetch_yahoo_ohlc(symbol: str, range_period: str = "2y") -> pd.DataFrame:
+    import requests
+
+    url = YAHOO_CHART_URL.format(symbol=quote(symbol, safe=""))
+    response = requests.get(
+        url,
+        params={"range": range_period, "interval": "1d", "includePrePost": "false", "events": "history"},
+        timeout=20,
+    )
+    response.raise_for_status()
+    payload = response.json()
+    result = payload.get("chart", {}).get("result") or []
+    if not result:
+        raise ValueError("No Yahoo chart result")
+
+    chart = result[0]
+    timestamps = chart.get("timestamp") or []
+    quote_data = (chart.get("indicators", {}).get("quote") or [{}])[0]
+    if not timestamps or not quote_data:
+        raise ValueError("No Yahoo OHLC data")
+
+    df = pd.DataFrame(
+        {
+            "datetime": pd.to_datetime(timestamps, unit="s", utc=True).tz_convert(None),
+            "open": quote_data.get("open"),
+            "high": quote_data.get("high"),
+            "low": quote_data.get("low"),
+            "close": quote_data.get("close"),
+            "volume": quote_data.get("volume"),
+        }
+    )
+    df = df.dropna(subset=["datetime", "open", "high", "low", "close"])
+    if df.empty:
+        raise ValueError("Empty Yahoo OHLC data")
+    df.set_index("datetime", inplace=True)
+    return df.sort_index()[["open", "high", "low", "close", "volume"]]
+
+
+def _assess_loaded_dataframe(
+    instrument: MarketInstrument,
+    df: pd.DataFrame,
+    expected: pd.Timestamp,
+    source: str,
+    min_rows: int,
+) -> LoadedMarketData:
+    rows_loaded = len(df)
+    last_date = pd.Timestamp(df.index.max()).normalize()
+    expected_naive = expected.tz_localize(None) if expected.tzinfo else expected
+    if rows_loaded < min_rows:
+        status = "Insufficient History"
+        action = "Fetch/export more history"
+    elif last_date > expected_naive:
+        status = "Possibly Incomplete"
+        action = "Confirm latest candle is closed"
+    elif last_date == expected_naive:
+        status = "Fresh"
+        action = "OK"
+    else:
+        status = "Stale"
+        action = "Check data provider or update CSV"
+
+    return LoadedMarketData(
+        instrument,
+        df,
+        status,
+        "OK" if status in {"Fresh", "Stale", "Possibly Incomplete"} else status,
+        action,
+        last_date.strftime("%Y-%m-%d"),
+        expected.strftime("%Y-%m-%d"),
+        rows_loaded,
+        source,
+    )
+
+
+def _missing_loaded(instrument: MarketInstrument, expected: pd.Timestamp, action: str, quality: str = "Missing File") -> LoadedMarketData:
+    return LoadedMarketData(
+        instrument,
+        None,
+        "Missing File",
+        quality,
+        action,
+        "",
+        expected.strftime("%Y-%m-%d"),
+        0,
+        "None",
+    )
+
+
+def load_market_data(
+    instrument: MarketInstrument,
+    now_utc: pd.Timestamp,
+    min_rows: int = 60,
+    auto_enabled: bool = True,
+) -> LoadedMarketData:
     expected = expected_latest_closed_date(now_utc, instrument.close_hour_pkt)
+    auto_error = ""
+    if auto_enabled and instrument.auto_symbol:
+        try:
+            df = fetch_yahoo_ohlc(instrument.auto_symbol)
+            return _assess_loaded_dataframe(
+                instrument,
+                df,
+                expected,
+                f"{instrument.auto_source}: {instrument.auto_symbol}",
+                min_rows,
+            )
+        except Exception as exc:
+            auto_error = str(exc)
+
     path = instrument.csv_path
     if not path.exists():
-        return LoadedMarketData(
-            instrument,
-            None,
-            "Missing File",
-            "Missing File",
-            "Add CSV export",
-            "",
-            expected.strftime("%Y-%m-%d"),
-            0,
-        )
+        action = "Auto fetch failed; add CSV export" if auto_error else "Add CSV export"
+        quality = "Auto Fetch Failed" if auto_error else "Missing File"
+        return _missing_loaded(instrument, expected, action, quality)
 
     try:
         df = normalize_market_csv(path)
@@ -129,34 +234,10 @@ def load_market_data(instrument: MarketInstrument, now_utc: pd.Timestamp, min_ro
             "",
             expected.strftime("%Y-%m-%d"),
             0,
+            str(path),
         )
 
-    rows_loaded = len(df)
-    last_date = pd.Timestamp(df.index.max()).normalize()
-    expected_naive = expected.tz_localize(None) if expected.tzinfo else expected
-    if rows_loaded < min_rows:
-        status = "Insufficient History"
-        action = "Export more history"
-    elif last_date > expected_naive:
-        status = "Possibly Incomplete"
-        action = "Confirm latest candle is closed"
-    elif last_date == expected_naive:
-        status = "Fresh"
-        action = "OK"
-    else:
-        status = "Stale"
-        action = "Update CSV Export"
-
-    return LoadedMarketData(
-        instrument,
-        df,
-        status,
-        "OK" if status in {"Fresh", "Stale", "Possibly Incomplete"} else status,
-        action,
-        last_date.strftime("%Y-%m-%d"),
-        expected.strftime("%Y-%m-%d"),
-        rows_loaded,
-    )
+    return _assess_loaded_dataframe(instrument, df, expected, str(path), min_rows)
 
 
 def status_row(loaded: LoadedMarketData, timestamp: str) -> list[Any]:
@@ -169,5 +250,6 @@ def status_row(loaded: LoadedMarketData, timestamp: str) -> list[Any]:
         loaded.status,
         loaded.rows_loaded,
         loaded.data_quality,
+        loaded.source,
         loaded.action_needed,
     ]

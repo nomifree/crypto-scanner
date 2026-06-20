@@ -16,6 +16,7 @@ class Settings:
     scan_mode: str = os.getenv("SCAN_MODE", "crypto").lower()
     pmex_data_dir: str = os.getenv("PMEX_DATA_DIR", "pmex_data")
     psx_data_dir: str = os.getenv("PSX_DATA_DIR", "psx_data")
+    auto_market_data: bool = os.getenv("AUTO_MARKET_DATA", "true").lower() in {"1", "true", "yes"}
 
 
 SETTINGS = Settings()
@@ -103,6 +104,7 @@ MARKET_STATUS_HEADERS = [
     "Freshness Status",
     "Rows Loaded",
     "Data Quality",
+    "Data Source",
     "Action Needed",
 ]
 

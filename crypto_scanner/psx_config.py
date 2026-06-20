@@ -65,6 +65,7 @@ def psx_instruments() -> list[MarketInstrument]:
                 shariah,
                 "Use only after EOD data is fresh; equity suitability depends on client mandate.",
                 17,
+                f"{symbol}.KA",
             )
         )
     return instruments

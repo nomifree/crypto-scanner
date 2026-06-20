@@ -17,6 +17,7 @@ def make_instrument(data_dir: Path, csv_file: str = "TEST.csv", close_hour_pkt: 
         shariah_status="Review",
         risk_note="Test risk note.",
         close_hour_pkt=close_hour_pkt,
+        auto_symbol="TEST.KA",
     )
 
 
@@ -50,7 +51,7 @@ def test_psx_style_csv_loads_correctly(tmp_path):
 
 
 def test_missing_file_marks_missing_file(tmp_path):
-    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"))
+    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"), auto_enabled=False)
 
     assert loaded.status == "Missing File"
     assert loaded.action_needed == "Add CSV export"
@@ -59,7 +60,7 @@ def test_missing_file_marks_missing_file(tmp_path):
 def test_bad_columns_marks_bad_columns(tmp_path):
     (tmp_path / "TEST.csv").write_text("Date,Price\n2026-06-19,100\n", encoding="utf-8")
 
-    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"))
+    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"), auto_enabled=False)
 
     assert loaded.status == "Bad Columns"
     assert loaded.action_needed == "Fix CSV columns"
@@ -68,17 +69,45 @@ def test_bad_columns_marks_bad_columns(tmp_path):
 def test_insufficient_rows_marks_insufficient_history(tmp_path):
     write_daily_csv(tmp_path / "TEST.csv", periods=10)
 
-    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"))
+    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"), auto_enabled=False)
 
     assert loaded.status == "Insufficient History"
-    assert loaded.action_needed == "Export more history"
+    assert loaded.action_needed == "Fetch/export more history"
 
 
 def test_current_active_candle_is_flagged_as_possibly_incomplete(tmp_path):
     write_daily_csv(tmp_path / "TEST.csv", periods=70, end="2026-06-19")
     now_before_close = pd.Timestamp("2026-06-19 08:00:00Z")
 
-    loaded = load_market_data(make_instrument(tmp_path), now_before_close)
+    loaded = load_market_data(make_instrument(tmp_path), now_before_close, auto_enabled=False)
 
     assert loaded.status == "Possibly Incomplete"
     assert loaded.expected_closed == "2026-06-18"
+
+
+def test_auto_fetch_loads_without_csv(tmp_path, monkeypatch):
+    csv_path = tmp_path / "AUTO.csv"
+    write_daily_csv(csv_path)
+    fetched_df = normalize_market_csv(csv_path)
+
+    monkeypatch.setattr("crypto_scanner.market_data.fetch_yahoo_ohlc", lambda symbol: fetched_df)
+
+    loaded = load_market_data(make_instrument(tmp_path, "MISSING.csv"), pd.Timestamp("2026-06-19 13:00:00Z"))
+
+    assert loaded.status == "Fresh"
+    assert loaded.source == "Yahoo Finance: TEST.KA"
+    assert loaded.rows_loaded == 70
+
+
+def test_csv_fallback_works_when_auto_fetch_fails(tmp_path, monkeypatch):
+    write_daily_csv(tmp_path / "TEST.csv")
+
+    def fail_fetch(symbol):
+        raise ValueError("network unavailable")
+
+    monkeypatch.setattr("crypto_scanner.market_data.fetch_yahoo_ohlc", fail_fetch)
+
+    loaded = load_market_data(make_instrument(tmp_path), pd.Timestamp("2026-06-19 13:00:00Z"))
+
+    assert loaded.status == "Fresh"
+    assert loaded.source.endswith("TEST.csv")

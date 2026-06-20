@@ -4,7 +4,7 @@ from typing import Any
 
 import pandas as pd
 
-from .config import MARKET_BIAS_HEADERS, MARKET_STATUS_HEADERS
+from .config import MARKET_BIAS_HEADERS, MARKET_STATUS_HEADERS, SETTINGS
 from .ict import check_ict_logic
 from .market_data import LoadedMarketData, MarketInstrument, load_market_data, status_row
 from .pmex_config import pmex_instruments
@@ -110,7 +110,7 @@ def bias_row(
         liquidity_note(loaded.df, market_type),
         instrument.shariah_status,
         market_risk_note(instrument, signal.grade, loaded.status),
-        str(instrument.csv_path),
+        loaded.source,
         loaded.status,
     ]
 
@@ -148,7 +148,7 @@ def scan_market_group(
     status_rows: list[list[Any]] = []
 
     for instrument in instruments:
-        loaded = load_market_data(instrument, now_utc)
+        loaded = load_market_data(instrument, now_utc, auto_enabled=SETTINGS.auto_market_data)
         status_rows.append(status_row(loaded, timestamp))
         monthly_row, weekly_row = evaluate_market_instrument(loaded, now_utc, timestamp, market_type)
         if monthly_row:
