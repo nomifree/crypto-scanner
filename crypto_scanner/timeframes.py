@@ -36,6 +36,8 @@ def remove_incomplete_period(df: pd.DataFrame | None, resolution: str, now_utc: 
 
 def resample_ohlc(df_daily: pd.DataFrame, resolution: str, now_utc: pd.Timestamp) -> pd.DataFrame:
     rules = {"open": "first", "high": "max", "low": "min", "close": "last"}
+    if "volume" in df_daily.columns:
+        rules["volume"] = "sum"
     if resolution == "Monthly":
         df = df_daily.resample("ME").agg(rules).dropna()
     elif resolution == "Weekly":

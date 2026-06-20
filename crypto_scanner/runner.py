@@ -1,15 +1,17 @@
 from __future__ import annotations
 
+import os
 import time
 
 import pandas as pd
 
 from .clients import get_defillama_context, get_top_coins, get_waterfall_data
+from .bias_runner import scan_markets
 from .config import RISK_HEADERS, SETTINGS
 from .ict import check_ict_logic
 from .models import ScannerResult
 from .risk_overlay import build_summary, evaluate_results
-from .sheets import deliver_outputs
+from .sheets import deliver_custom_tabs, deliver_outputs
 from .timeframes import resample_ohlc
 
 
@@ -88,5 +90,19 @@ def scan(now_utc: pd.Timestamp | None = None, sleep_fn=time.sleep) -> tuple[dict
 
 
 def main() -> None:
+    mode = os.getenv("SCAN_MODE", SETTINGS.scan_mode).strip().lower()
+    if mode not in {"crypto", "pmex", "psx", "markets", "all"}:
+        raise ValueError("SCAN_MODE must be one of crypto, pmex, psx, markets, all.")
+
+    if mode in {"crypto", "all"}:
+        base_tabs, risk_tabs, summary_tab, summary_rows = scan()
+        deliver_outputs(base_tabs, risk_tabs, summary_tab, summary_rows)
+
+    if mode in {"pmex", "psx", "markets", "all"}:
+        market_tabs = scan_markets(mode)
+        deliver_custom_tabs(market_tabs)
+
+
+def crypto_main() -> None:
     base_tabs, risk_tabs, summary_tab, summary_rows = scan()
     deliver_outputs(base_tabs, risk_tabs, summary_tab, summary_rows)

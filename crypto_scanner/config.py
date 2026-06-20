@@ -13,6 +13,9 @@ class Settings:
     monthly_coin_limit: int = int(os.getenv("MONTHLY_COIN_LIMIT", "350"))
     weekly_coin_limit: int = int(os.getenv("WEEKLY_COIN_LIMIT", "100"))
     sleep_seconds: float = float(os.getenv("SCAN_SLEEP_SECONDS", "1"))
+    scan_mode: str = os.getenv("SCAN_MODE", "crypto").lower()
+    pmex_data_dir: str = os.getenv("PMEX_DATA_DIR", "pmex_data")
+    psx_data_dir: str = os.getenv("PSX_DATA_DIR", "psx_data")
 
 
 SETTINGS = Settings()
@@ -66,6 +69,42 @@ RISK_HEADERS = BASE_HEADERS + [
 ]
 
 SUMMARY_HEADERS = ["Section", "Ticker/Cluster", "Metric", "Action", "Notes"]
+
+MARKET_BIAS_HEADERS = [
+    "Timestamp",
+    "Symbol",
+    "Company Name",
+    "Sector",
+    "Universe",
+    "Resolution",
+    "Last Completed Candle Date",
+    "Last Close",
+    "Volume",
+    "Directional Bias",
+    "Valuation",
+    "Setup Grade",
+    "Bias Strength",
+    "Monthly/Weekly Alignment",
+    "Client Suitability",
+    "Invalidation Reference",
+    "Liquidity Note",
+    "Shariah Status",
+    "Risk Note",
+    "Data Source",
+    "Data Freshness",
+]
+
+MARKET_STATUS_HEADERS = [
+    "Timestamp",
+    "Instrument",
+    "CSV File",
+    "Last Available Candle",
+    "Expected Latest Closed Candle",
+    "Freshness Status",
+    "Rows Loaded",
+    "Data Quality",
+    "Action Needed",
+]
 
 BLOCK_FLAGS = {
     "RIBA_FLAG",

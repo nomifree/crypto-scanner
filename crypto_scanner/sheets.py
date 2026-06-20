@@ -80,3 +80,15 @@ def deliver_outputs(
     for tab_name, rows in risk_tabs.items():
         write_tab(sh, tab_name, RISK_HEADERS, rows)
     write_tab(sh, summary_tab_name, SUMMARY_HEADERS, summary_rows)
+
+
+def deliver_custom_tabs(tabs: dict[str, tuple[list[str], list[list[Any]]]]) -> None:
+    if SETTINGS.dry_run:
+        print("DRY_RUN=true; custom Google Sheets write skipped.")
+        for name, (_, rows) in tabs.items():
+            print(f"DRY_RUN {name}: {len(rows)} rows")
+        return
+
+    sh = authorize_sheet()
+    for tab_name, (headers, rows) in tabs.items():
+        write_tab(sh, tab_name, headers, rows)
