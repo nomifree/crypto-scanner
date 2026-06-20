@@ -166,6 +166,59 @@ def fetch_yahoo_ohlc(symbol: str, range_period: str = "2y") -> pd.DataFrame:
     return df.sort_index()[["open", "high", "low", "close", "volume"]]
 
 
+def fetch_yfinance_ohlc(symbol: str) -> pd.DataFrame:
+    import yfinance as yf
+
+    raw = yf.download(
+        symbol,
+        period="2y",
+        interval="1d",
+        progress=False,
+        auto_adjust=False,
+        threads=False,
+    )
+    if raw is None or raw.empty:
+        raise ValueError("yfinance returned no rows")
+    if isinstance(raw.columns, pd.MultiIndex):
+        raw = raw.droplevel(-1, axis=1)
+
+    columns = {str(column).strip().lower(): column for column in raw.columns}
+    required = ["open", "high", "low", "close"]
+    if any(column not in columns for column in required):
+        raise ValueError(f"yfinance missing OHLC columns: {list(raw.columns)}")
+
+    df = pd.DataFrame(
+        {
+            "open": pd.to_numeric(raw[columns["open"]], errors="coerce"),
+            "high": pd.to_numeric(raw[columns["high"]], errors="coerce"),
+            "low": pd.to_numeric(raw[columns["low"]], errors="coerce"),
+            "close": pd.to_numeric(raw[columns["close"]], errors="coerce"),
+            "volume": pd.to_numeric(raw[columns["volume"]], errors="coerce") if "volume" in columns else pd.NA,
+        },
+        index=pd.to_datetime(raw.index),
+    )
+    df = df.dropna(subset=["open", "high", "low", "close"])
+    if df.empty:
+        raise ValueError("yfinance OHLC rows were empty after cleanup")
+    df.index = pd.DatetimeIndex(df.index).tz_localize(None) if pd.DatetimeIndex(df.index).tz is not None else df.index
+    return df.sort_index()[["open", "high", "low", "close", "volume"]]
+
+
+def fetch_auto_ohlc(symbol: str) -> tuple[pd.DataFrame, str]:
+    errors = []
+    try:
+        return fetch_yahoo_ohlc(symbol), "Yahoo Finance"
+    except Exception as exc:
+        errors.append(f"chart={exc}")
+
+    try:
+        return fetch_yfinance_ohlc(symbol), "Yahoo Finance yfinance"
+    except Exception as exc:
+        errors.append(f"yfinance={exc}")
+
+    raise ValueError("; ".join(errors))
+
+
 def _assess_loaded_dataframe(
     instrument: MarketInstrument,
     df: pd.DataFrame,
@@ -226,12 +279,12 @@ def load_market_data(
     auto_error = ""
     if auto_enabled and instrument.auto_symbol:
         try:
-            df = fetch_yahoo_ohlc(instrument.auto_symbol)
+            df, source = fetch_auto_ohlc(instrument.auto_symbol)
             return _assess_loaded_dataframe(
                 instrument,
                 df,
                 expected,
-                f"{instrument.auto_source}: {instrument.auto_symbol}",
+                f"{source}: {instrument.auto_symbol}",
                 min_rows,
             )
         except Exception as exc:

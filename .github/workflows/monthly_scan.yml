@@ -31,6 +31,21 @@ jobs:
           python -m py_compile scanner.py crypto_scanner/*.py
           pytest
 
+      - name: Market data health check
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          from crypto_scanner.market_data import fetch_auto_ohlc
+
+          for symbol in ["GC=F", "MEBL.KA"]:
+              try:
+                  df, source = fetch_auto_ohlc(symbol)
+                  print(f"{symbol}: OK from {source}, rows={len(df)}, last={df.index[-1].date()}")
+              except Exception as exc:
+                  print(f"{symbol}: FAILED: {exc}")
+          PY
+
       - name: Run scanner
         env:
           PYTHONPATH: .
