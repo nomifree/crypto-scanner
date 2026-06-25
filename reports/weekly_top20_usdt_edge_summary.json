@@ -1,0 +1,3444 @@
+{
+  "source_note": "Market-cap universe from CoinGecko because the CoinMarketCap public endpoint was unavailable. Each market is analyzed separately as SYMBOLUSDT on Binance 4h candles.",
+  "tested_count": 20,
+  "results": [
+    {
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "market_cap_rank": 1,
+      "market_cap": 1198249581930,
+      "pair": "BTCUSDT",
+      "complete_weeks": 453,
+      "weekly_first": "2017-08-21/2017-08-27",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 96,
+          "sequence": {
+            "target_only": [
+              47,
+              48.96
+            ],
+            "target_first": [
+              4,
+              4.17
+            ],
+            "opposing_first": [
+              1,
+              1.04
+            ],
+            "opposing_only": [
+              24,
+              25.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              20,
+              20.83
+            ]
+          },
+          "target_hit_anytime_week3": [
+            52,
+            54.17
+          ],
+          "opposing_hit_anytime_week3": [
+            29,
+            30.21
+          ],
+          "target_before_opposing": [
+            51,
+            53.12
+          ],
+          "opposing_before_target": [
+            25,
+            26.04
+          ]
+        },
+        "target2_week1_high": {
+          "events": 96,
+          "sequence": {
+            "target_only": [
+              26,
+              27.08
+            ],
+            "target_first": [
+              4,
+              4.17
+            ],
+            "opposing_first": [
+              5,
+              5.21
+            ],
+            "opposing_only": [
+              47,
+              48.96
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              14,
+              14.58
+            ]
+          },
+          "target_hit_anytime_week3": [
+            35,
+            36.46
+          ],
+          "opposing_hit_anytime_week3": [
+            56,
+            58.33
+          ],
+          "target_before_opposing": [
+            30,
+            31.25
+          ],
+          "opposing_before_target": [
+            52,
+            54.17
+          ]
+        },
+        "week3_50pct_before_target1": [
+          39,
+          40.62
+        ],
+        "week3_inside_week2_range": [
+          20,
+          20.83
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 126,
+          "sequence": {
+            "target_only": [
+              92,
+              73.02
+            ],
+            "target_first": [
+              6,
+              4.76
+            ],
+            "opposing_first": [
+              1,
+              0.79
+            ],
+            "opposing_only": [
+              14,
+              11.11
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              13,
+              10.32
+            ]
+          },
+          "target_hit_anytime_week3": [
+            99,
+            78.57
+          ],
+          "opposing_hit_anytime_week3": [
+            21,
+            16.67
+          ],
+          "target_before_opposing": [
+            98,
+            77.78
+          ],
+          "opposing_before_target": [
+            15,
+            11.9
+          ]
+        },
+        "week3_50pct_before_target": [
+          52,
+          41.27
+        ],
+        "week3_inside_week2_range": [
+          13,
+          10.32
+        ]
+      }
+    },
+    {
+      "symbol": "ETH",
+      "name": "Ethereum",
+      "market_cap_rank": 2,
+      "market_cap": 189298212431,
+      "pair": "ETHUSDT",
+      "complete_weeks": 453,
+      "weekly_first": "2017-08-21/2017-08-27",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 91,
+          "sequence": {
+            "target_only": [
+              40,
+              43.96
+            ],
+            "target_first": [
+              6,
+              6.59
+            ],
+            "opposing_first": [
+              1,
+              1.1
+            ],
+            "opposing_only": [
+              25,
+              27.47
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              19,
+              20.88
+            ]
+          },
+          "target_hit_anytime_week3": [
+            47,
+            51.65
+          ],
+          "opposing_hit_anytime_week3": [
+            32,
+            35.16
+          ],
+          "target_before_opposing": [
+            46,
+            50.55
+          ],
+          "opposing_before_target": [
+            26,
+            28.57
+          ]
+        },
+        "target2_week1_high": {
+          "events": 91,
+          "sequence": {
+            "target_only": [
+              27,
+              29.67
+            ],
+            "target_first": [
+              3,
+              3.3
+            ],
+            "opposing_first": [
+              4,
+              4.4
+            ],
+            "opposing_only": [
+              44,
+              48.35
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              13,
+              14.29
+            ]
+          },
+          "target_hit_anytime_week3": [
+            34,
+            37.36
+          ],
+          "opposing_hit_anytime_week3": [
+            51,
+            56.04
+          ],
+          "target_before_opposing": [
+            30,
+            32.97
+          ],
+          "opposing_before_target": [
+            48,
+            52.75
+          ]
+        },
+        "week3_50pct_before_target1": [
+          34,
+          37.36
+        ],
+        "week3_inside_week2_range": [
+          19,
+          20.88
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 121,
+          "sequence": {
+            "target_only": [
+              83,
+              68.6
+            ],
+            "target_first": [
+              6,
+              4.96
+            ],
+            "opposing_first": [
+              2,
+              1.65
+            ],
+            "opposing_only": [
+              14,
+              11.57
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              16,
+              13.22
+            ]
+          },
+          "target_hit_anytime_week3": [
+            91,
+            75.21
+          ],
+          "opposing_hit_anytime_week3": [
+            22,
+            18.18
+          ],
+          "target_before_opposing": [
+            89,
+            73.55
+          ],
+          "opposing_before_target": [
+            16,
+            13.22
+          ]
+        },
+        "week3_50pct_before_target": [
+          51,
+          42.15
+        ],
+        "week3_inside_week2_range": [
+          16,
+          13.22
+        ]
+      }
+    },
+    {
+      "symbol": "BNB",
+      "name": "BNB",
+      "market_cap_rank": 4,
+      "market_cap": 75417965994,
+      "pair": "BNBUSDT",
+      "complete_weeks": 442,
+      "weekly_first": "2017-11-06/2017-11-12",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 89,
+          "sequence": {
+            "target_only": [
+              49,
+              55.06
+            ],
+            "target_first": [
+              6,
+              6.74
+            ],
+            "opposing_first": [
+              1,
+              1.12
+            ],
+            "opposing_only": [
+              13,
+              14.61
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              20,
+              22.47
+            ]
+          },
+          "target_hit_anytime_week3": [
+            56,
+            62.92
+          ],
+          "opposing_hit_anytime_week3": [
+            20,
+            22.47
+          ],
+          "target_before_opposing": [
+            55,
+            61.8
+          ],
+          "opposing_before_target": [
+            14,
+            15.73
+          ]
+        },
+        "target2_week1_high": {
+          "events": 89,
+          "sequence": {
+            "target_only": [
+              27,
+              30.34
+            ],
+            "target_first": [
+              7,
+              7.87
+            ],
+            "opposing_first": [
+              7,
+              7.87
+            ],
+            "opposing_only": [
+              32,
+              35.96
+            ],
+            "same_4h_ambiguous": [
+              1,
+              1.12
+            ],
+            "neither": [
+              15,
+              16.85
+            ]
+          },
+          "target_hit_anytime_week3": [
+            42,
+            47.19
+          ],
+          "opposing_hit_anytime_week3": [
+            47,
+            52.81
+          ],
+          "target_before_opposing": [
+            34,
+            38.2
+          ],
+          "opposing_before_target": [
+            39,
+            43.82
+          ]
+        },
+        "week3_50pct_before_target1": [
+          40,
+          44.94
+        ],
+        "week3_inside_week2_range": [
+          20,
+          22.47
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 128,
+          "sequence": {
+            "target_only": [
+              72,
+              56.25
+            ],
+            "target_first": [
+              6,
+              4.69
+            ],
+            "opposing_first": [
+              4,
+              3.12
+            ],
+            "opposing_only": [
+              19,
+              14.84
+            ],
+            "same_4h_ambiguous": [
+              1,
+              0.78
+            ],
+            "neither": [
+              26,
+              20.31
+            ]
+          },
+          "target_hit_anytime_week3": [
+            83,
+            64.84
+          ],
+          "opposing_hit_anytime_week3": [
+            30,
+            23.44
+          ],
+          "target_before_opposing": [
+            78,
+            60.94
+          ],
+          "opposing_before_target": [
+            23,
+            17.97
+          ]
+        },
+        "week3_50pct_before_target": [
+          55,
+          42.97
+        ],
+        "week3_inside_week2_range": [
+          26,
+          20.31
+        ]
+      }
+    },
+    {
+      "symbol": "XRP",
+      "name": "XRP",
+      "market_cap_rank": 6,
+      "market_cap": 64706720423,
+      "pair": "XRPUSDT",
+      "complete_weeks": 417,
+      "weekly_first": "2018-05-07/2018-05-13",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 81,
+          "sequence": {
+            "target_only": [
+              32,
+              39.51
+            ],
+            "target_first": [
+              6,
+              7.41
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              18,
+              22.22
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              25,
+              30.86
+            ]
+          },
+          "target_hit_anytime_week3": [
+            38,
+            46.91
+          ],
+          "opposing_hit_anytime_week3": [
+            24,
+            29.63
+          ],
+          "target_before_opposing": [
+            38,
+            46.91
+          ],
+          "opposing_before_target": [
+            18,
+            22.22
+          ]
+        },
+        "target2_week1_high": {
+          "events": 81,
+          "sequence": {
+            "target_only": [
+              16,
+              19.75
+            ],
+            "target_first": [
+              5,
+              6.17
+            ],
+            "opposing_first": [
+              5,
+              6.17
+            ],
+            "opposing_only": [
+              40,
+              49.38
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              15,
+              18.52
+            ]
+          },
+          "target_hit_anytime_week3": [
+            26,
+            32.1
+          ],
+          "opposing_hit_anytime_week3": [
+            50,
+            61.73
+          ],
+          "target_before_opposing": [
+            21,
+            25.93
+          ],
+          "opposing_before_target": [
+            45,
+            55.56
+          ]
+        },
+        "week3_50pct_before_target1": [
+          29,
+          35.8
+        ],
+        "week3_inside_week2_range": [
+          25,
+          30.86
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 80,
+          "sequence": {
+            "target_only": [
+              40,
+              50.0
+            ],
+            "target_first": [
+              3,
+              3.75
+            ],
+            "opposing_first": [
+              1,
+              1.25
+            ],
+            "opposing_only": [
+              15,
+              18.75
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              21,
+              26.25
+            ]
+          },
+          "target_hit_anytime_week3": [
+            44,
+            55.0
+          ],
+          "opposing_hit_anytime_week3": [
+            19,
+            23.75
+          ],
+          "target_before_opposing": [
+            43,
+            53.75
+          ],
+          "opposing_before_target": [
+            16,
+            20.0
+          ]
+        },
+        "week3_50pct_before_target": [
+          33,
+          41.25
+        ],
+        "week3_inside_week2_range": [
+          21,
+          26.25
+        ]
+      }
+    },
+    {
+      "symbol": "SOL",
+      "name": "Solana",
+      "market_cap_rank": 7,
+      "market_cap": 38924393035,
+      "pair": "SOLUSDT",
+      "complete_weeks": 305,
+      "weekly_first": "2020-08-17/2020-08-23",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 72,
+          "sequence": {
+            "target_only": [
+              30,
+              41.67
+            ],
+            "target_first": [
+              5,
+              6.94
+            ],
+            "opposing_first": [
+              2,
+              2.78
+            ],
+            "opposing_only": [
+              20,
+              27.78
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              15,
+              20.83
+            ]
+          },
+          "target_hit_anytime_week3": [
+            37,
+            51.39
+          ],
+          "opposing_hit_anytime_week3": [
+            27,
+            37.5
+          ],
+          "target_before_opposing": [
+            35,
+            48.61
+          ],
+          "opposing_before_target": [
+            22,
+            30.56
+          ]
+        },
+        "target2_week1_high": {
+          "events": 72,
+          "sequence": {
+            "target_only": [
+              16,
+              22.22
+            ],
+            "target_first": [
+              3,
+              4.17
+            ],
+            "opposing_first": [
+              6,
+              8.33
+            ],
+            "opposing_only": [
+              34,
+              47.22
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              13,
+              18.06
+            ]
+          },
+          "target_hit_anytime_week3": [
+            25,
+            34.72
+          ],
+          "opposing_hit_anytime_week3": [
+            43,
+            59.72
+          ],
+          "target_before_opposing": [
+            19,
+            26.39
+          ],
+          "opposing_before_target": [
+            40,
+            55.56
+          ]
+        },
+        "week3_50pct_before_target1": [
+          32,
+          44.44
+        ],
+        "week3_inside_week2_range": [
+          15,
+          20.83
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 80,
+          "sequence": {
+            "target_only": [
+              57,
+              71.25
+            ],
+            "target_first": [
+              6,
+              7.5
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              8,
+              10.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              9,
+              11.25
+            ]
+          },
+          "target_hit_anytime_week3": [
+            63,
+            78.75
+          ],
+          "opposing_hit_anytime_week3": [
+            14,
+            17.5
+          ],
+          "target_before_opposing": [
+            63,
+            78.75
+          ],
+          "opposing_before_target": [
+            8,
+            10.0
+          ]
+        },
+        "week3_50pct_before_target": [
+          35,
+          43.75
+        ],
+        "week3_inside_week2_range": [
+          9,
+          11.25
+        ]
+      }
+    },
+    {
+      "symbol": "TRX",
+      "name": "TRON",
+      "market_cap_rank": 8,
+      "market_cap": 30683537003,
+      "pair": "TRXUSDT",
+      "complete_weeks": 411,
+      "weekly_first": "2018-06-18/2018-06-24",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              43,
+              46.74
+            ],
+            "target_first": [
+              4,
+              4.35
+            ],
+            "opposing_first": [
+              1,
+              1.09
+            ],
+            "opposing_only": [
+              21,
+              22.83
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              23,
+              25.0
+            ]
+          },
+          "target_hit_anytime_week3": [
+            48,
+            52.17
+          ],
+          "opposing_hit_anytime_week3": [
+            26,
+            28.26
+          ],
+          "target_before_opposing": [
+            47,
+            51.09
+          ],
+          "opposing_before_target": [
+            22,
+            23.91
+          ]
+        },
+        "target2_week1_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              29,
+              31.52
+            ],
+            "target_first": [
+              7,
+              7.61
+            ],
+            "opposing_first": [
+              3,
+              3.26
+            ],
+            "opposing_only": [
+              36,
+              39.13
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              17,
+              18.48
+            ]
+          },
+          "target_hit_anytime_week3": [
+            39,
+            42.39
+          ],
+          "opposing_hit_anytime_week3": [
+            46,
+            50.0
+          ],
+          "target_before_opposing": [
+            36,
+            39.13
+          ],
+          "opposing_before_target": [
+            39,
+            42.39
+          ]
+        },
+        "week3_50pct_before_target1": [
+          39,
+          42.39
+        ],
+        "week3_inside_week2_range": [
+          23,
+          25.0
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 109,
+          "sequence": {
+            "target_only": [
+              58,
+              53.21
+            ],
+            "target_first": [
+              10,
+              9.17
+            ],
+            "opposing_first": [
+              1,
+              0.92
+            ],
+            "opposing_only": [
+              14,
+              12.84
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              26,
+              23.85
+            ]
+          },
+          "target_hit_anytime_week3": [
+            69,
+            63.3
+          ],
+          "opposing_hit_anytime_week3": [
+            25,
+            22.94
+          ],
+          "target_before_opposing": [
+            68,
+            62.39
+          ],
+          "opposing_before_target": [
+            15,
+            13.76
+          ]
+        },
+        "week3_50pct_before_target": [
+          45,
+          41.28
+        ],
+        "week3_inside_week2_range": [
+          26,
+          23.85
+        ]
+      }
+    },
+    {
+      "symbol": "DOGE",
+      "name": "Dogecoin",
+      "market_cap_rank": 11,
+      "market_cap": 11541989433,
+      "pair": "DOGEUSDT",
+      "complete_weeks": 361,
+      "weekly_first": "2019-07-08/2019-07-14",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 75,
+          "sequence": {
+            "target_only": [
+              20,
+              26.67
+            ],
+            "target_first": [
+              1,
+              1.33
+            ],
+            "opposing_first": [
+              1,
+              1.33
+            ],
+            "opposing_only": [
+              18,
+              24.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              35,
+              46.67
+            ]
+          },
+          "target_hit_anytime_week3": [
+            22,
+            29.33
+          ],
+          "opposing_hit_anytime_week3": [
+            20,
+            26.67
+          ],
+          "target_before_opposing": [
+            21,
+            28.0
+          ],
+          "opposing_before_target": [
+            19,
+            25.33
+          ]
+        },
+        "target2_week1_high": {
+          "events": 75,
+          "sequence": {
+            "target_only": [
+              19,
+              25.33
+            ],
+            "target_first": [
+              4,
+              5.33
+            ],
+            "opposing_first": [
+              4,
+              5.33
+            ],
+            "opposing_only": [
+              38,
+              50.67
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              10,
+              13.33
+            ]
+          },
+          "target_hit_anytime_week3": [
+            27,
+            36.0
+          ],
+          "opposing_hit_anytime_week3": [
+            46,
+            61.33
+          ],
+          "target_before_opposing": [
+            23,
+            30.67
+          ],
+          "opposing_before_target": [
+            42,
+            56.0
+          ]
+        },
+        "week3_50pct_before_target1": [
+          17,
+          22.67
+        ],
+        "week3_inside_week2_range": [
+          35,
+          46.67
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 64,
+          "sequence": {
+            "target_only": [
+              34,
+              53.12
+            ],
+            "target_first": [
+              1,
+              1.56
+            ],
+            "opposing_first": [
+              2,
+              3.12
+            ],
+            "opposing_only": [
+              9,
+              14.06
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              18,
+              28.12
+            ]
+          },
+          "target_hit_anytime_week3": [
+            37,
+            57.81
+          ],
+          "opposing_hit_anytime_week3": [
+            12,
+            18.75
+          ],
+          "target_before_opposing": [
+            35,
+            54.69
+          ],
+          "opposing_before_target": [
+            11,
+            17.19
+          ]
+        },
+        "week3_50pct_before_target": [
+          24,
+          37.5
+        ],
+        "week3_inside_week2_range": [
+          18,
+          28.12
+        ]
+      }
+    },
+    {
+      "symbol": "ZEC",
+      "name": "Zcash",
+      "market_cap_rank": 15,
+      "market_cap": 6992317851,
+      "pair": "ZECUSDT",
+      "complete_weeks": 375,
+      "weekly_first": "2019-03-25/2019-03-31",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 81,
+          "sequence": {
+            "target_only": [
+              40,
+              49.38
+            ],
+            "target_first": [
+              3,
+              3.7
+            ],
+            "opposing_first": [
+              1,
+              1.23
+            ],
+            "opposing_only": [
+              18,
+              22.22
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              19,
+              23.46
+            ]
+          },
+          "target_hit_anytime_week3": [
+            44,
+            54.32
+          ],
+          "opposing_hit_anytime_week3": [
+            22,
+            27.16
+          ],
+          "target_before_opposing": [
+            43,
+            53.09
+          ],
+          "opposing_before_target": [
+            19,
+            23.46
+          ]
+        },
+        "target2_week1_high": {
+          "events": 81,
+          "sequence": {
+            "target_only": [
+              30,
+              37.04
+            ],
+            "target_first": [
+              4,
+              4.94
+            ],
+            "opposing_first": [
+              2,
+              2.47
+            ],
+            "opposing_only": [
+              33,
+              40.74
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              12,
+              14.81
+            ]
+          },
+          "target_hit_anytime_week3": [
+            36,
+            44.44
+          ],
+          "opposing_hit_anytime_week3": [
+            39,
+            48.15
+          ],
+          "target_before_opposing": [
+            34,
+            41.98
+          ],
+          "opposing_before_target": [
+            35,
+            43.21
+          ]
+        },
+        "week3_50pct_before_target1": [
+          24,
+          29.63
+        ],
+        "week3_inside_week2_range": [
+          19,
+          23.46
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 93,
+          "sequence": {
+            "target_only": [
+              58,
+              62.37
+            ],
+            "target_first": [
+              2,
+              2.15
+            ],
+            "opposing_first": [
+              4,
+              4.3
+            ],
+            "opposing_only": [
+              13,
+              13.98
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              16,
+              17.2
+            ]
+          },
+          "target_hit_anytime_week3": [
+            64,
+            68.82
+          ],
+          "opposing_hit_anytime_week3": [
+            19,
+            20.43
+          ],
+          "target_before_opposing": [
+            60,
+            64.52
+          ],
+          "opposing_before_target": [
+            17,
+            18.28
+          ]
+        },
+        "week3_50pct_before_target": [
+          40,
+          43.01
+        ],
+        "week3_inside_week2_range": [
+          16,
+          17.2
+        ]
+      }
+    },
+    {
+      "symbol": "XLM",
+      "name": "Stellar",
+      "market_cap_rank": 16,
+      "market_cap": 6019198507,
+      "pair": "XLMUSDT",
+      "complete_weeks": 413,
+      "weekly_first": "2018-06-04/2018-06-10",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 88,
+          "sequence": {
+            "target_only": [
+              40,
+              45.45
+            ],
+            "target_first": [
+              3,
+              3.41
+            ],
+            "opposing_first": [
+              3,
+              3.41
+            ],
+            "opposing_only": [
+              24,
+              27.27
+            ],
+            "same_4h_ambiguous": [
+              1,
+              1.14
+            ],
+            "neither": [
+              17,
+              19.32
+            ]
+          },
+          "target_hit_anytime_week3": [
+            47,
+            53.41
+          ],
+          "opposing_hit_anytime_week3": [
+            31,
+            35.23
+          ],
+          "target_before_opposing": [
+            43,
+            48.86
+          ],
+          "opposing_before_target": [
+            27,
+            30.68
+          ]
+        },
+        "target2_week1_high": {
+          "events": 88,
+          "sequence": {
+            "target_only": [
+              31,
+              35.23
+            ],
+            "target_first": [
+              5,
+              5.68
+            ],
+            "opposing_first": [
+              4,
+              4.55
+            ],
+            "opposing_only": [
+              38,
+              43.18
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              10,
+              11.36
+            ]
+          },
+          "target_hit_anytime_week3": [
+            40,
+            45.45
+          ],
+          "opposing_hit_anytime_week3": [
+            47,
+            53.41
+          ],
+          "target_before_opposing": [
+            36,
+            40.91
+          ],
+          "opposing_before_target": [
+            42,
+            47.73
+          ]
+        },
+        "week3_50pct_before_target1": [
+          35,
+          39.77
+        ],
+        "week3_inside_week2_range": [
+          17,
+          19.32
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 89,
+          "sequence": {
+            "target_only": [
+              48,
+              53.93
+            ],
+            "target_first": [
+              2,
+              2.25
+            ],
+            "opposing_first": [
+              1,
+              1.12
+            ],
+            "opposing_only": [
+              19,
+              21.35
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              19,
+              21.35
+            ]
+          },
+          "target_hit_anytime_week3": [
+            51,
+            57.3
+          ],
+          "opposing_hit_anytime_week3": [
+            22,
+            24.72
+          ],
+          "target_before_opposing": [
+            50,
+            56.18
+          ],
+          "opposing_before_target": [
+            20,
+            22.47
+          ]
+        },
+        "week3_50pct_before_target": [
+          31,
+          34.83
+        ],
+        "week3_inside_week2_range": [
+          19,
+          21.35
+        ]
+      }
+    },
+    {
+      "symbol": "XMR",
+      "name": "Monero",
+      "market_cap_rank": 18,
+      "market_cap": 5796103910,
+      "pair": "XMRUSDT",
+      "complete_weeks": 254,
+      "weekly_first": "2019-03-18/2019-03-24",
+      "weekly_last": "2024-02-12/2024-02-18",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 54,
+          "sequence": {
+            "target_only": [
+              24,
+              44.44
+            ],
+            "target_first": [
+              6,
+              11.11
+            ],
+            "opposing_first": [
+              2,
+              3.7
+            ],
+            "opposing_only": [
+              12,
+              22.22
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              10,
+              18.52
+            ]
+          },
+          "target_hit_anytime_week3": [
+            32,
+            59.26
+          ],
+          "opposing_hit_anytime_week3": [
+            20,
+            37.04
+          ],
+          "target_before_opposing": [
+            30,
+            55.56
+          ],
+          "opposing_before_target": [
+            14,
+            25.93
+          ]
+        },
+        "target2_week1_high": {
+          "events": 54,
+          "sequence": {
+            "target_only": [
+              12,
+              22.22
+            ],
+            "target_first": [
+              5,
+              9.26
+            ],
+            "opposing_first": [
+              2,
+              3.7
+            ],
+            "opposing_only": [
+              26,
+              48.15
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              9,
+              16.67
+            ]
+          },
+          "target_hit_anytime_week3": [
+            19,
+            35.19
+          ],
+          "opposing_hit_anytime_week3": [
+            33,
+            61.11
+          ],
+          "target_before_opposing": [
+            17,
+            31.48
+          ],
+          "opposing_before_target": [
+            28,
+            51.85
+          ]
+        },
+        "week3_50pct_before_target1": [
+          18,
+          33.33
+        ],
+        "week3_inside_week2_range": [
+          10,
+          18.52
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 67,
+          "sequence": {
+            "target_only": [
+              42,
+              62.69
+            ],
+            "target_first": [
+              5,
+              7.46
+            ],
+            "opposing_first": [
+              1,
+              1.49
+            ],
+            "opposing_only": [
+              10,
+              14.93
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              9,
+              13.43
+            ]
+          },
+          "target_hit_anytime_week3": [
+            48,
+            71.64
+          ],
+          "opposing_hit_anytime_week3": [
+            16,
+            23.88
+          ],
+          "target_before_opposing": [
+            47,
+            70.15
+          ],
+          "opposing_before_target": [
+            11,
+            16.42
+          ]
+        },
+        "week3_50pct_before_target": [
+          26,
+          38.81
+        ],
+        "week3_inside_week2_range": [
+          9,
+          13.43
+        ]
+      }
+    },
+    {
+      "symbol": "LINK",
+      "name": "Chainlink",
+      "market_cap_rank": 21,
+      "market_cap": 5412855950,
+      "pair": "LINKUSDT",
+      "complete_weeks": 383,
+      "weekly_first": "2019-01-21/2019-01-27",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 80,
+          "sequence": {
+            "target_only": [
+              45,
+              56.25
+            ],
+            "target_first": [
+              2,
+              2.5
+            ],
+            "opposing_first": [
+              1,
+              1.25
+            ],
+            "opposing_only": [
+              20,
+              25.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              12,
+              15.0
+            ]
+          },
+          "target_hit_anytime_week3": [
+            48,
+            60.0
+          ],
+          "opposing_hit_anytime_week3": [
+            23,
+            28.75
+          ],
+          "target_before_opposing": [
+            47,
+            58.75
+          ],
+          "opposing_before_target": [
+            21,
+            26.25
+          ]
+        },
+        "target2_week1_high": {
+          "events": 80,
+          "sequence": {
+            "target_only": [
+              33,
+              41.25
+            ],
+            "target_first": [
+              1,
+              1.25
+            ],
+            "opposing_first": [
+              3,
+              3.75
+            ],
+            "opposing_only": [
+              32,
+              40.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              11,
+              13.75
+            ]
+          },
+          "target_hit_anytime_week3": [
+            37,
+            46.25
+          ],
+          "opposing_hit_anytime_week3": [
+            36,
+            45.0
+          ],
+          "target_before_opposing": [
+            34,
+            42.5
+          ],
+          "opposing_before_target": [
+            35,
+            43.75
+          ]
+        },
+        "week3_50pct_before_target1": [
+          37,
+          46.25
+        ],
+        "week3_inside_week2_range": [
+          12,
+          15.0
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 95,
+          "sequence": {
+            "target_only": [
+              56,
+              58.95
+            ],
+            "target_first": [
+              6,
+              6.32
+            ],
+            "opposing_first": [
+              2,
+              2.11
+            ],
+            "opposing_only": [
+              11,
+              11.58
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              20,
+              21.05
+            ]
+          },
+          "target_hit_anytime_week3": [
+            64,
+            67.37
+          ],
+          "opposing_hit_anytime_week3": [
+            19,
+            20.0
+          ],
+          "target_before_opposing": [
+            62,
+            65.26
+          ],
+          "opposing_before_target": [
+            13,
+            13.68
+          ]
+        },
+        "week3_50pct_before_target": [
+          39,
+          41.05
+        ],
+        "week3_inside_week2_range": [
+          20,
+          21.05
+        ]
+      }
+    },
+    {
+      "symbol": "ADA",
+      "name": "Cardano",
+      "market_cap_rank": 22,
+      "market_cap": 5333975831,
+      "pair": "ADAUSDT",
+      "complete_weeks": 419,
+      "weekly_first": "2018-04-23/2018-04-29",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              42,
+              45.65
+            ],
+            "target_first": [
+              4,
+              4.35
+            ],
+            "opposing_first": [
+              1,
+              1.09
+            ],
+            "opposing_only": [
+              28,
+              30.43
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              17,
+              18.48
+            ]
+          },
+          "target_hit_anytime_week3": [
+            47,
+            51.09
+          ],
+          "opposing_hit_anytime_week3": [
+            33,
+            35.87
+          ],
+          "target_before_opposing": [
+            46,
+            50.0
+          ],
+          "opposing_before_target": [
+            29,
+            31.52
+          ]
+        },
+        "target2_week1_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              34,
+              36.96
+            ],
+            "target_first": [
+              4,
+              4.35
+            ],
+            "opposing_first": [
+              1,
+              1.09
+            ],
+            "opposing_only": [
+              44,
+              47.83
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              9,
+              9.78
+            ]
+          },
+          "target_hit_anytime_week3": [
+            39,
+            42.39
+          ],
+          "opposing_hit_anytime_week3": [
+            49,
+            53.26
+          ],
+          "target_before_opposing": [
+            38,
+            41.3
+          ],
+          "opposing_before_target": [
+            45,
+            48.91
+          ]
+        },
+        "week3_50pct_before_target1": [
+          31,
+          33.7
+        ],
+        "week3_inside_week2_range": [
+          17,
+          18.48
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 93,
+          "sequence": {
+            "target_only": [
+              57,
+              61.29
+            ],
+            "target_first": [
+              5,
+              5.38
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              13,
+              13.98
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              18,
+              19.35
+            ]
+          },
+          "target_hit_anytime_week3": [
+            62,
+            66.67
+          ],
+          "opposing_hit_anytime_week3": [
+            18,
+            19.35
+          ],
+          "target_before_opposing": [
+            62,
+            66.67
+          ],
+          "opposing_before_target": [
+            13,
+            13.98
+          ]
+        },
+        "week3_50pct_before_target": [
+          41,
+          44.09
+        ],
+        "week3_inside_week2_range": [
+          18,
+          19.35
+        ]
+      }
+    },
+    {
+      "symbol": "BCH",
+      "name": "Bitcoin Cash",
+      "market_cap_rank": 27,
+      "market_cap": 3834323248,
+      "pair": "BCHUSDT",
+      "complete_weeks": 341,
+      "weekly_first": "2019-12-02/2019-12-08",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 73,
+          "sequence": {
+            "target_only": [
+              35,
+              47.95
+            ],
+            "target_first": [
+              7,
+              9.59
+            ],
+            "opposing_first": [
+              4,
+              5.48
+            ],
+            "opposing_only": [
+              12,
+              16.44
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              15,
+              20.55
+            ]
+          },
+          "target_hit_anytime_week3": [
+            46,
+            63.01
+          ],
+          "opposing_hit_anytime_week3": [
+            23,
+            31.51
+          ],
+          "target_before_opposing": [
+            42,
+            57.53
+          ],
+          "opposing_before_target": [
+            16,
+            21.92
+          ]
+        },
+        "target2_week1_high": {
+          "events": 73,
+          "sequence": {
+            "target_only": [
+              19,
+              26.03
+            ],
+            "target_first": [
+              5,
+              6.85
+            ],
+            "opposing_first": [
+              7,
+              9.59
+            ],
+            "opposing_only": [
+              36,
+              49.32
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              6,
+              8.22
+            ]
+          },
+          "target_hit_anytime_week3": [
+            31,
+            42.47
+          ],
+          "opposing_hit_anytime_week3": [
+            48,
+            65.75
+          ],
+          "target_before_opposing": [
+            24,
+            32.88
+          ],
+          "opposing_before_target": [
+            43,
+            58.9
+          ]
+        },
+        "week3_50pct_before_target1": [
+          33,
+          45.21
+        ],
+        "week3_inside_week2_range": [
+          15,
+          20.55
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 72,
+          "sequence": {
+            "target_only": [
+              39,
+              54.17
+            ],
+            "target_first": [
+              3,
+              4.17
+            ],
+            "opposing_first": [
+              1,
+              1.39
+            ],
+            "opposing_only": [
+              9,
+              12.5
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              20,
+              27.78
+            ]
+          },
+          "target_hit_anytime_week3": [
+            43,
+            59.72
+          ],
+          "opposing_hit_anytime_week3": [
+            13,
+            18.06
+          ],
+          "target_before_opposing": [
+            42,
+            58.33
+          ],
+          "opposing_before_target": [
+            10,
+            13.89
+          ]
+        },
+        "week3_50pct_before_target": [
+          31,
+          43.06
+        ],
+        "week3_inside_week2_range": [
+          20,
+          27.78
+        ]
+      }
+    },
+    {
+      "symbol": "HBAR",
+      "name": "Hedera",
+      "market_cap_rank": 28,
+      "market_cap": 3187518795,
+      "pair": "HBARUSDT",
+      "complete_weeks": 350,
+      "weekly_first": "2019-09-30/2019-10-06",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              31,
+              33.7
+            ],
+            "target_first": [
+              8,
+              8.7
+            ],
+            "opposing_first": [
+              6,
+              6.52
+            ],
+            "opposing_only": [
+              22,
+              23.91
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              25,
+              27.17
+            ]
+          },
+          "target_hit_anytime_week3": [
+            45,
+            48.91
+          ],
+          "opposing_hit_anytime_week3": [
+            36,
+            39.13
+          ],
+          "target_before_opposing": [
+            39,
+            42.39
+          ],
+          "opposing_before_target": [
+            28,
+            30.43
+          ]
+        },
+        "target2_week1_high": {
+          "events": 92,
+          "sequence": {
+            "target_only": [
+              27,
+              29.35
+            ],
+            "target_first": [
+              5,
+              5.43
+            ],
+            "opposing_first": [
+              7,
+              7.61
+            ],
+            "opposing_only": [
+              40,
+              43.48
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              13,
+              14.13
+            ]
+          },
+          "target_hit_anytime_week3": [
+            39,
+            42.39
+          ],
+          "opposing_hit_anytime_week3": [
+            52,
+            56.52
+          ],
+          "target_before_opposing": [
+            32,
+            34.78
+          ],
+          "opposing_before_target": [
+            47,
+            51.09
+          ]
+        },
+        "week3_50pct_before_target1": [
+          31,
+          33.7
+        ],
+        "week3_inside_week2_range": [
+          25,
+          27.17
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 65,
+          "sequence": {
+            "target_only": [
+              37,
+              56.92
+            ],
+            "target_first": [
+              2,
+              3.08
+            ],
+            "opposing_first": [
+              1,
+              1.54
+            ],
+            "opposing_only": [
+              10,
+              15.38
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              15,
+              23.08
+            ]
+          },
+          "target_hit_anytime_week3": [
+            40,
+            61.54
+          ],
+          "opposing_hit_anytime_week3": [
+            13,
+            20.0
+          ],
+          "target_before_opposing": [
+            39,
+            60.0
+          ],
+          "opposing_before_target": [
+            11,
+            16.92
+          ]
+        },
+        "week3_50pct_before_target": [
+          25,
+          38.46
+        ],
+        "week3_inside_week2_range": [
+          15,
+          23.08
+        ]
+      }
+    },
+    {
+      "symbol": "LTC",
+      "name": "Litecoin",
+      "market_cap_rank": 29,
+      "market_cap": 3167730156,
+      "pair": "LTCUSDT",
+      "complete_weeks": 436,
+      "weekly_first": "2017-12-18/2017-12-24",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 98,
+          "sequence": {
+            "target_only": [
+              41,
+              41.84
+            ],
+            "target_first": [
+              4,
+              4.08
+            ],
+            "opposing_first": [
+              4,
+              4.08
+            ],
+            "opposing_only": [
+              32,
+              32.65
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              17,
+              17.35
+            ]
+          },
+          "target_hit_anytime_week3": [
+            49,
+            50.0
+          ],
+          "opposing_hit_anytime_week3": [
+            40,
+            40.82
+          ],
+          "target_before_opposing": [
+            45,
+            45.92
+          ],
+          "opposing_before_target": [
+            36,
+            36.73
+          ]
+        },
+        "target2_week1_high": {
+          "events": 98,
+          "sequence": {
+            "target_only": [
+              32,
+              32.65
+            ],
+            "target_first": [
+              3,
+              3.06
+            ],
+            "opposing_first": [
+              5,
+              5.1
+            ],
+            "opposing_only": [
+              45,
+              45.92
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              13,
+              13.27
+            ]
+          },
+          "target_hit_anytime_week3": [
+            40,
+            40.82
+          ],
+          "opposing_hit_anytime_week3": [
+            53,
+            54.08
+          ],
+          "target_before_opposing": [
+            35,
+            35.71
+          ],
+          "opposing_before_target": [
+            50,
+            51.02
+          ]
+        },
+        "week3_50pct_before_target1": [
+          38,
+          38.78
+        ],
+        "week3_inside_week2_range": [
+          17,
+          17.35
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 93,
+          "sequence": {
+            "target_only": [
+              53,
+              56.99
+            ],
+            "target_first": [
+              7,
+              7.53
+            ],
+            "opposing_first": [
+              1,
+              1.08
+            ],
+            "opposing_only": [
+              17,
+              18.28
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              15,
+              16.13
+            ]
+          },
+          "target_hit_anytime_week3": [
+            61,
+            65.59
+          ],
+          "opposing_hit_anytime_week3": [
+            25,
+            26.88
+          ],
+          "target_before_opposing": [
+            60,
+            64.52
+          ],
+          "opposing_before_target": [
+            18,
+            19.35
+          ]
+        },
+        "week3_50pct_before_target": [
+          36,
+          38.71
+        ],
+        "week3_inside_week2_range": [
+          15,
+          16.13
+        ]
+      }
+    },
+    {
+      "symbol": "SUI",
+      "name": "Sui",
+      "market_cap_rank": 32,
+      "market_cap": 2737492630,
+      "pair": "SUIUSDT",
+      "complete_weeks": 163,
+      "weekly_first": "2023-05-08/2023-05-14",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 31,
+          "sequence": {
+            "target_only": [
+              15,
+              48.39
+            ],
+            "target_first": [
+              2,
+              6.45
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              10,
+              32.26
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              4,
+              12.9
+            ]
+          },
+          "target_hit_anytime_week3": [
+            17,
+            54.84
+          ],
+          "opposing_hit_anytime_week3": [
+            12,
+            38.71
+          ],
+          "target_before_opposing": [
+            17,
+            54.84
+          ],
+          "opposing_before_target": [
+            10,
+            32.26
+          ]
+        },
+        "target2_week1_high": {
+          "events": 31,
+          "sequence": {
+            "target_only": [
+              14,
+              45.16
+            ],
+            "target_first": [
+              0,
+              0.0
+            ],
+            "opposing_first": [
+              1,
+              3.23
+            ],
+            "opposing_only": [
+              14,
+              45.16
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              2,
+              6.45
+            ]
+          },
+          "target_hit_anytime_week3": [
+            15,
+            48.39
+          ],
+          "opposing_hit_anytime_week3": [
+            15,
+            48.39
+          ],
+          "target_before_opposing": [
+            14,
+            45.16
+          ],
+          "opposing_before_target": [
+            15,
+            48.39
+          ]
+        },
+        "week3_50pct_before_target1": [
+          14,
+          45.16
+        ],
+        "week3_inside_week2_range": [
+          4,
+          12.9
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 30,
+          "sequence": {
+            "target_only": [
+              20,
+              66.67
+            ],
+            "target_first": [
+              3,
+              10.0
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              2,
+              6.67
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              5,
+              16.67
+            ]
+          },
+          "target_hit_anytime_week3": [
+            23,
+            76.67
+          ],
+          "opposing_hit_anytime_week3": [
+            5,
+            16.67
+          ],
+          "target_before_opposing": [
+            23,
+            76.67
+          ],
+          "opposing_before_target": [
+            2,
+            6.67
+          ]
+        },
+        "week3_50pct_before_target": [
+          14,
+          46.67
+        ],
+        "week3_inside_week2_range": [
+          5,
+          16.67
+        ]
+      }
+    },
+    {
+      "symbol": "AVAX",
+      "name": "Avalanche",
+      "market_cap_rank": 34,
+      "market_cap": 2676175634,
+      "pair": "AVAXUSDT",
+      "complete_weeks": 299,
+      "weekly_first": "2020-09-28/2020-10-04",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 65,
+          "sequence": {
+            "target_only": [
+              32,
+              49.23
+            ],
+            "target_first": [
+              1,
+              1.54
+            ],
+            "opposing_first": [
+              2,
+              3.08
+            ],
+            "opposing_only": [
+              18,
+              27.69
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              12,
+              18.46
+            ]
+          },
+          "target_hit_anytime_week3": [
+            35,
+            53.85
+          ],
+          "opposing_hit_anytime_week3": [
+            21,
+            32.31
+          ],
+          "target_before_opposing": [
+            33,
+            50.77
+          ],
+          "opposing_before_target": [
+            20,
+            30.77
+          ]
+        },
+        "target2_week1_high": {
+          "events": 65,
+          "sequence": {
+            "target_only": [
+              22,
+              33.85
+            ],
+            "target_first": [
+              2,
+              3.08
+            ],
+            "opposing_first": [
+              2,
+              3.08
+            ],
+            "opposing_only": [
+              34,
+              52.31
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              5,
+              7.69
+            ]
+          },
+          "target_hit_anytime_week3": [
+            26,
+            40.0
+          ],
+          "opposing_hit_anytime_week3": [
+            38,
+            58.46
+          ],
+          "target_before_opposing": [
+            24,
+            36.92
+          ],
+          "opposing_before_target": [
+            36,
+            55.38
+          ]
+        },
+        "week3_50pct_before_target1": [
+          27,
+          41.54
+        ],
+        "week3_inside_week2_range": [
+          12,
+          18.46
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 67,
+          "sequence": {
+            "target_only": [
+              40,
+              59.7
+            ],
+            "target_first": [
+              6,
+              8.96
+            ],
+            "opposing_first": [
+              2,
+              2.99
+            ],
+            "opposing_only": [
+              7,
+              10.45
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              12,
+              17.91
+            ]
+          },
+          "target_hit_anytime_week3": [
+            48,
+            71.64
+          ],
+          "opposing_hit_anytime_week3": [
+            15,
+            22.39
+          ],
+          "target_before_opposing": [
+            46,
+            68.66
+          ],
+          "opposing_before_target": [
+            9,
+            13.43
+          ]
+        },
+        "week3_50pct_before_target": [
+          25,
+          37.31
+        ],
+        "week3_inside_week2_range": [
+          12,
+          17.91
+        ]
+      }
+    },
+    {
+      "symbol": "SHIB",
+      "name": "Shiba Inu",
+      "market_cap_rank": 36,
+      "market_cap": 2488636341,
+      "pair": "SHIBUSDT",
+      "complete_weeks": 266,
+      "weekly_first": "2021-05-17/2021-05-23",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 56,
+          "sequence": {
+            "target_only": [
+              19,
+              33.93
+            ],
+            "target_first": [
+              3,
+              5.36
+            ],
+            "opposing_first": [
+              2,
+              3.57
+            ],
+            "opposing_only": [
+              22,
+              39.29
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              10,
+              17.86
+            ]
+          },
+          "target_hit_anytime_week3": [
+            24,
+            42.86
+          ],
+          "opposing_hit_anytime_week3": [
+            27,
+            48.21
+          ],
+          "target_before_opposing": [
+            22,
+            39.29
+          ],
+          "opposing_before_target": [
+            24,
+            42.86
+          ]
+        },
+        "target2_week1_high": {
+          "events": 56,
+          "sequence": {
+            "target_only": [
+              11,
+              19.64
+            ],
+            "target_first": [
+              1,
+              1.79
+            ],
+            "opposing_first": [
+              3,
+              5.36
+            ],
+            "opposing_only": [
+              32,
+              57.14
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              9,
+              16.07
+            ]
+          },
+          "target_hit_anytime_week3": [
+            15,
+            26.79
+          ],
+          "opposing_hit_anytime_week3": [
+            36,
+            64.29
+          ],
+          "target_before_opposing": [
+            12,
+            21.43
+          ],
+          "opposing_before_target": [
+            35,
+            62.5
+          ]
+        },
+        "week3_50pct_before_target1": [
+          20,
+          35.71
+        ],
+        "week3_inside_week2_range": [
+          10,
+          17.86
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 46,
+          "sequence": {
+            "target_only": [
+              21,
+              45.65
+            ],
+            "target_first": [
+              1,
+              2.17
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              7,
+              15.22
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              17,
+              36.96
+            ]
+          },
+          "target_hit_anytime_week3": [
+            22,
+            47.83
+          ],
+          "opposing_hit_anytime_week3": [
+            8,
+            17.39
+          ],
+          "target_before_opposing": [
+            22,
+            47.83
+          ],
+          "opposing_before_target": [
+            7,
+            15.22
+          ]
+        },
+        "week3_50pct_before_target": [
+          15,
+          32.61
+        ],
+        "week3_inside_week2_range": [
+          17,
+          36.96
+        ]
+      }
+    },
+    {
+      "symbol": "XAUT",
+      "name": "Tether Gold",
+      "market_cap_rank": 37,
+      "market_cap": 2459538575,
+      "pair": "XAUTUSDT",
+      "complete_weeks": 12,
+      "weekly_first": "2026-03-30/2026-04-05",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 4,
+          "sequence": {
+            "target_only": [
+              2,
+              50.0
+            ],
+            "target_first": [
+              0,
+              0.0
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              2,
+              50.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              0,
+              0.0
+            ]
+          },
+          "target_hit_anytime_week3": [
+            2,
+            50.0
+          ],
+          "opposing_hit_anytime_week3": [
+            2,
+            50.0
+          ],
+          "target_before_opposing": [
+            2,
+            50.0
+          ],
+          "opposing_before_target": [
+            2,
+            50.0
+          ]
+        },
+        "target2_week1_high": {
+          "events": 4,
+          "sequence": {
+            "target_only": [
+              1,
+              25.0
+            ],
+            "target_first": [
+              0,
+              0.0
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              3,
+              75.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              0,
+              0.0
+            ]
+          },
+          "target_hit_anytime_week3": [
+            1,
+            25.0
+          ],
+          "opposing_hit_anytime_week3": [
+            3,
+            75.0
+          ],
+          "target_before_opposing": [
+            1,
+            25.0
+          ],
+          "opposing_before_target": [
+            3,
+            75.0
+          ]
+        },
+        "week3_50pct_before_target1": [
+          0,
+          0.0
+        ],
+        "week3_inside_week2_range": [
+          0,
+          0.0
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 0,
+          "sequence": {
+            "target_only": [
+              0,
+              0.0
+            ],
+            "target_first": [
+              0,
+              0.0
+            ],
+            "opposing_first": [
+              0,
+              0.0
+            ],
+            "opposing_only": [
+              0,
+              0.0
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              0,
+              0.0
+            ]
+          },
+          "target_hit_anytime_week3": [
+            0,
+            0.0
+          ],
+          "opposing_hit_anytime_week3": [
+            0,
+            0.0
+          ],
+          "target_before_opposing": [
+            0,
+            0.0
+          ],
+          "opposing_before_target": [
+            0,
+            0.0
+          ]
+        },
+        "week3_50pct_before_target": [
+          0,
+          0.0
+        ],
+        "week3_inside_week2_range": [
+          0,
+          0.0
+        ]
+      }
+    },
+    {
+      "symbol": "NEAR",
+      "name": "NEAR Protocol",
+      "market_cap_rank": 39,
+      "market_cap": 2340232038,
+      "pair": "NEARUSDT",
+      "complete_weeks": 296,
+      "weekly_first": "2020-10-19/2020-10-25",
+      "weekly_last": "2026-06-15/2026-06-21",
+      "sweep_reclaim": {
+        "setup": "Week2 low < Week1 low and Week2 close > Week1 low. Week3 only.",
+        "target1_week2_high": {
+          "events": 57,
+          "sequence": {
+            "target_only": [
+              24,
+              42.11
+            ],
+            "target_first": [
+              6,
+              10.53
+            ],
+            "opposing_first": [
+              1,
+              1.75
+            ],
+            "opposing_only": [
+              19,
+              33.33
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              7,
+              12.28
+            ]
+          },
+          "target_hit_anytime_week3": [
+            31,
+            54.39
+          ],
+          "opposing_hit_anytime_week3": [
+            26,
+            45.61
+          ],
+          "target_before_opposing": [
+            30,
+            52.63
+          ],
+          "opposing_before_target": [
+            20,
+            35.09
+          ]
+        },
+        "target2_week1_high": {
+          "events": 57,
+          "sequence": {
+            "target_only": [
+              17,
+              29.82
+            ],
+            "target_first": [
+              5,
+              8.77
+            ],
+            "opposing_first": [
+              1,
+              1.75
+            ],
+            "opposing_only": [
+              30,
+              52.63
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              4,
+              7.02
+            ]
+          },
+          "target_hit_anytime_week3": [
+            23,
+            40.35
+          ],
+          "opposing_hit_anytime_week3": [
+            36,
+            63.16
+          ],
+          "target_before_opposing": [
+            22,
+            38.6
+          ],
+          "opposing_before_target": [
+            31,
+            54.39
+          ]
+        },
+        "week3_50pct_before_target1": [
+          18,
+          31.58
+        ],
+        "week3_inside_week2_range": [
+          7,
+          12.28
+        ]
+      },
+      "bullish_displacement": {
+        "setup": "Week2 close > Week1 high. No body or close-position filter. Week3 only.",
+        "target_week2_high": {
+          "events": 72,
+          "sequence": {
+            "target_only": [
+              41,
+              56.94
+            ],
+            "target_first": [
+              3,
+              4.17
+            ],
+            "opposing_first": [
+              1,
+              1.39
+            ],
+            "opposing_only": [
+              10,
+              13.89
+            ],
+            "same_4h_ambiguous": [
+              0,
+              0.0
+            ],
+            "neither": [
+              17,
+              23.61
+            ]
+          },
+          "target_hit_anytime_week3": [
+            45,
+            62.5
+          ],
+          "opposing_hit_anytime_week3": [
+            14,
+            19.44
+          ],
+          "target_before_opposing": [
+            44,
+            61.11
+          ],
+          "opposing_before_target": [
+            11,
+            15.28
+          ]
+        },
+        "week3_50pct_before_target": [
+          22,
+          30.56
+        ],
+        "week3_inside_week2_range": [
+          17,
+          23.61
+        ]
+      }
+    }
+  ],
+  "skipped": [
+    {
+      "symbol": "FIGR_HELOC",
+      "name": "Figure Heloc",
+      "market_cap_rank": 9,
+      "market_cap": 19859366303,
+      "pair": "FIGR_HELOCUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "HYPE",
+      "name": "Hyperliquid",
+      "market_cap_rank": 10,
+      "market_cap": 14179433413,
+      "pair": "HYPEUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "RAIN",
+      "name": "Rain",
+      "market_cap_rank": 13,
+      "market_cap": 9802269303,
+      "pair": "RAINUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "LEO",
+      "name": "LEO Token",
+      "market_cap_rank": 14,
+      "market_cap": 8628497720,
+      "pair": "LEOUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "CC",
+      "name": "Canton",
+      "market_cap_rank": 17,
+      "market_cap": 5806858025,
+      "pair": "CCUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "WBT",
+      "name": "WhiteBIT Coin",
+      "market_cap_rank": 19,
+      "market_cap": 5711700489,
+      "pair": "WBTUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "LAB",
+      "name": "LAB",
+      "market_cap_rank": 20,
+      "market_cap": 5623058672,
+      "pair": "LABUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "GRAM",
+      "name": "Gram (prev. Toncoin)",
+      "market_cap_rank": 26,
+      "market_cap": 4227026078,
+      "pair": "GRAMUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "USYC",
+      "name": "Circle USYC",
+      "market_cap_rank": 30,
+      "market_cap": 3129776556,
+      "pair": "USYCUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "USDG",
+      "name": "Global Dollar",
+      "market_cap_rank": 31,
+      "market_cap": 2928318927,
+      "pair": "USDGUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "CRO",
+      "name": "Cronos",
+      "market_cap_rank": 35,
+      "market_cap": 2522677026,
+      "pair": "CROUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    },
+    {
+      "symbol": "BUIDL",
+      "name": "BlackRock USD Institutional Digital Liquidity Fund",
+      "market_cap_rank": 38,
+      "market_cap": 2417620191,
+      "pair": "BUIDLUSDT",
+      "reason": "HTTP Error 400: Bad Request"
+    }
+  ]
+}
