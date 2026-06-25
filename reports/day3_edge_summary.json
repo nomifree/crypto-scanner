@@ -1,0 +1,967 @@
+[
+  {
+    "symbol": "BTC",
+    "source": "Binance BTCUSDT 1h candles rebuilt into UTC daily candles",
+    "hourly_first": "2017-08-18 00:00:00+00:00",
+    "hourly_last": "2026-06-24 23:00:00+00:00",
+    "hourly_candles": 76896,
+    "daily_first": "2017-08-18",
+    "daily_last": "2026-06-24",
+    "complete_daily_candles": 3204,
+    "bullish_sweep_reclaim": {
+      "setup": "Day2 low < Day1 low and Day2 close > Day1 low. Day3 only.",
+      "target_1": "Day2 high",
+      "target_2": "Day1 high",
+      "opposing_1": "Day2 low",
+      "opposing_2": "Day1 low",
+      "target_1_stats": {
+        "events": 742,
+        "sequence": {
+          "target_only": [
+            339,
+            45.69
+          ],
+          "target_first": [
+            39,
+            5.26
+          ],
+          "opposing_first": [
+            22,
+            2.96
+          ],
+          "opposing_only": [
+            172,
+            23.18
+          ],
+          "same_hour_ambiguous": [
+            1,
+            0.13
+          ],
+          "neither": [
+            169,
+            22.78
+          ]
+        },
+        "target_hit_anytime_day3": [
+          401,
+          54.04
+        ],
+        "opposing_hit_anytime_day3": [
+          234,
+          31.54
+        ],
+        "target_before_opposing": [
+          378,
+          50.94
+        ],
+        "opposing_before_target": [
+          194,
+          26.15
+        ]
+      },
+      "target_2_stats": {
+        "events": 742,
+        "sequence": {
+          "target_only": [
+            218,
+            29.38
+          ],
+          "target_first": [
+            38,
+            5.12
+          ],
+          "opposing_first": [
+            48,
+            6.47
+          ],
+          "opposing_only": [
+            306,
+            41.24
+          ],
+          "same_hour_ambiguous": [
+            4,
+            0.54
+          ],
+          "neither": [
+            128,
+            17.25
+          ]
+        },
+        "target_hit_anytime_day3": [
+          308,
+          41.51
+        ],
+        "opposing_hit_anytime_day3": [
+          396,
+          53.37
+        ],
+        "target_before_opposing": [
+          256,
+          34.5
+        ],
+        "opposing_before_target": [
+          354,
+          47.71
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        282,
+        38.01
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        347,
+        46.77
+      ],
+      "day3_consolidated_inside_day2_range": [
+        169,
+        22.78
+      ],
+      "day3_consolidated_inside_day1_range": [
+        128,
+        17.25
+      ],
+      "day3_green_close": [
+        376,
+        50.67
+      ]
+    },
+    "bullish_displacement": {
+      "setup": "Day2 close > Day1 high. No body or close-position filter. Day3 only.",
+      "target": "Day2 high",
+      "opposing": "Day2 low",
+      "target_stats": {
+        "events": 771,
+        "sequence": {
+          "target_only": [
+            446,
+            57.85
+          ],
+          "target_first": [
+            50,
+            6.49
+          ],
+          "opposing_first": [
+            11,
+            1.43
+          ],
+          "opposing_only": [
+            92,
+            11.93
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            172,
+            22.31
+          ]
+        },
+        "target_hit_anytime_day3": [
+          507,
+          65.76
+        ],
+        "opposing_hit_anytime_day3": [
+          153,
+          19.84
+        ],
+        "target_before_opposing": [
+          496,
+          64.33
+        ],
+        "opposing_before_target": [
+          103,
+          13.36
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        297,
+        38.52
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        409,
+        53.05
+      ],
+      "day3_consolidated_inside_day2_range": [
+        172,
+        22.31
+      ],
+      "day3_green_close": [
+        362,
+        46.95
+      ]
+    }
+  },
+  {
+    "symbol": "ETH",
+    "source": "Binance ETHUSDT 1h candles rebuilt into UTC daily candles",
+    "hourly_first": "2017-08-18 00:00:00+00:00",
+    "hourly_last": "2026-06-24 23:00:00+00:00",
+    "hourly_candles": 76896,
+    "daily_first": "2017-08-18",
+    "daily_last": "2026-06-24",
+    "complete_daily_candles": 3204,
+    "bullish_sweep_reclaim": {
+      "setup": "Day2 low < Day1 low and Day2 close > Day1 low. Day3 only.",
+      "target_1": "Day2 high",
+      "target_2": "Day1 high",
+      "opposing_1": "Day2 low",
+      "opposing_2": "Day1 low",
+      "target_1_stats": {
+        "events": 715,
+        "sequence": {
+          "target_only": [
+            332,
+            46.43
+          ],
+          "target_first": [
+            30,
+            4.2
+          ],
+          "opposing_first": [
+            17,
+            2.38
+          ],
+          "opposing_only": [
+            175,
+            24.48
+          ],
+          "same_hour_ambiguous": [
+            2,
+            0.28
+          ],
+          "neither": [
+            159,
+            22.24
+          ]
+        },
+        "target_hit_anytime_day3": [
+          381,
+          53.29
+        ],
+        "opposing_hit_anytime_day3": [
+          224,
+          31.33
+        ],
+        "target_before_opposing": [
+          362,
+          50.63
+        ],
+        "opposing_before_target": [
+          192,
+          26.85
+        ]
+      },
+      "target_2_stats": {
+        "events": 715,
+        "sequence": {
+          "target_only": [
+            202,
+            28.25
+          ],
+          "target_first": [
+            27,
+            3.78
+          ],
+          "opposing_first": [
+            57,
+            7.97
+          ],
+          "opposing_only": [
+            306,
+            42.8
+          ],
+          "same_hour_ambiguous": [
+            2,
+            0.28
+          ],
+          "neither": [
+            121,
+            16.92
+          ]
+        },
+        "target_hit_anytime_day3": [
+          288,
+          40.28
+        ],
+        "opposing_hit_anytime_day3": [
+          392,
+          54.83
+        ],
+        "target_before_opposing": [
+          229,
+          32.03
+        ],
+        "opposing_before_target": [
+          363,
+          50.77
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        270,
+        37.76
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        331,
+        46.29
+      ],
+      "day3_consolidated_inside_day2_range": [
+        159,
+        22.24
+      ],
+      "day3_consolidated_inside_day1_range": [
+        121,
+        16.92
+      ],
+      "day3_green_close": [
+        352,
+        49.23
+      ]
+    },
+    "bullish_displacement": {
+      "setup": "Day2 close > Day1 high. No body or close-position filter. Day3 only.",
+      "target": "Day2 high",
+      "opposing": "Day2 low",
+      "target_stats": {
+        "events": 743,
+        "sequence": {
+          "target_only": [
+            431,
+            58.01
+          ],
+          "target_first": [
+            43,
+            5.79
+          ],
+          "opposing_first": [
+            7,
+            0.94
+          ],
+          "opposing_only": [
+            105,
+            14.13
+          ],
+          "same_hour_ambiguous": [
+            1,
+            0.13
+          ],
+          "neither": [
+            156,
+            21.0
+          ]
+        },
+        "target_hit_anytime_day3": [
+          482,
+          64.87
+        ],
+        "opposing_hit_anytime_day3": [
+          156,
+          21.0
+        ],
+        "target_before_opposing": [
+          474,
+          63.8
+        ],
+        "opposing_before_target": [
+          112,
+          15.07
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        261,
+        35.13
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        390,
+        52.49
+      ],
+      "day3_consolidated_inside_day2_range": [
+        156,
+        21.0
+      ],
+      "day3_green_close": [
+        336,
+        45.22
+      ]
+    }
+  },
+  {
+    "symbol": "ADA",
+    "source": "Binance ADAUSDT 1h candles rebuilt into UTC daily candles",
+    "hourly_first": "2018-04-18 00:00:00+00:00",
+    "hourly_last": "2026-06-24 23:00:00+00:00",
+    "hourly_candles": 71160,
+    "daily_first": "2018-04-18",
+    "daily_last": "2026-06-24",
+    "complete_daily_candles": 2965,
+    "bullish_sweep_reclaim": {
+      "setup": "Day2 low < Day1 low and Day2 close > Day1 low. Day3 only.",
+      "target_1": "Day2 high",
+      "target_2": "Day1 high",
+      "opposing_1": "Day2 low",
+      "opposing_2": "Day1 low",
+      "target_1_stats": {
+        "events": 672,
+        "sequence": {
+          "target_only": [
+            322,
+            47.92
+          ],
+          "target_first": [
+            31,
+            4.61
+          ],
+          "opposing_first": [
+            14,
+            2.08
+          ],
+          "opposing_only": [
+            173,
+            25.74
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            132,
+            19.64
+          ]
+        },
+        "target_hit_anytime_day3": [
+          367,
+          54.61
+        ],
+        "opposing_hit_anytime_day3": [
+          218,
+          32.44
+        ],
+        "target_before_opposing": [
+          353,
+          52.53
+        ],
+        "opposing_before_target": [
+          187,
+          27.83
+        ]
+      },
+      "target_2_stats": {
+        "events": 672,
+        "sequence": {
+          "target_only": [
+            207,
+            30.8
+          ],
+          "target_first": [
+            28,
+            4.17
+          ],
+          "opposing_first": [
+            34,
+            5.06
+          ],
+          "opposing_only": [
+            296,
+            44.05
+          ],
+          "same_hour_ambiguous": [
+            1,
+            0.15
+          ],
+          "neither": [
+            106,
+            15.77
+          ]
+        },
+        "target_hit_anytime_day3": [
+          270,
+          40.18
+        ],
+        "opposing_hit_anytime_day3": [
+          359,
+          53.42
+        ],
+        "target_before_opposing": [
+          235,
+          34.97
+        ],
+        "opposing_before_target": [
+          330,
+          49.11
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        224,
+        33.33
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        312,
+        46.43
+      ],
+      "day3_consolidated_inside_day2_range": [
+        132,
+        19.64
+      ],
+      "day3_consolidated_inside_day1_range": [
+        106,
+        15.77
+      ],
+      "day3_green_close": [
+        329,
+        48.96
+      ]
+    },
+    "bullish_displacement": {
+      "setup": "Day2 close > Day1 high. No body or close-position filter. Day3 only.",
+      "target": "Day2 high",
+      "opposing": "Day2 low",
+      "target_stats": {
+        "events": 627,
+        "sequence": {
+          "target_only": [
+            380,
+            60.61
+          ],
+          "target_first": [
+            31,
+            4.94
+          ],
+          "opposing_first": [
+            5,
+            0.8
+          ],
+          "opposing_only": [
+            81,
+            12.92
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            130,
+            20.73
+          ]
+        },
+        "target_hit_anytime_day3": [
+          416,
+          66.35
+        ],
+        "opposing_hit_anytime_day3": [
+          117,
+          18.66
+        ],
+        "target_before_opposing": [
+          411,
+          65.55
+        ],
+        "opposing_before_target": [
+          86,
+          13.72
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        202,
+        32.22
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        333,
+        53.11
+      ],
+      "day3_consolidated_inside_day2_range": [
+        130,
+        20.73
+      ],
+      "day3_green_close": [
+        285,
+        45.45
+      ]
+    }
+  },
+  {
+    "symbol": "LINK",
+    "source": "Binance LINKUSDT 1h candles rebuilt into UTC daily candles",
+    "hourly_first": "2019-01-17 00:00:00+00:00",
+    "hourly_last": "2026-06-24 23:00:00+00:00",
+    "hourly_candles": 64704,
+    "daily_first": "2019-01-17",
+    "daily_last": "2026-06-24",
+    "complete_daily_candles": 2696,
+    "bullish_sweep_reclaim": {
+      "setup": "Day2 low < Day1 low and Day2 close > Day1 low. Day3 only.",
+      "target_1": "Day2 high",
+      "target_2": "Day1 high",
+      "opposing_1": "Day2 low",
+      "opposing_2": "Day1 low",
+      "target_1_stats": {
+        "events": 573,
+        "sequence": {
+          "target_only": [
+            281,
+            49.04
+          ],
+          "target_first": [
+            32,
+            5.58
+          ],
+          "opposing_first": [
+            9,
+            1.57
+          ],
+          "opposing_only": [
+            131,
+            22.86
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            120,
+            20.94
+          ]
+        },
+        "target_hit_anytime_day3": [
+          322,
+          56.2
+        ],
+        "opposing_hit_anytime_day3": [
+          172,
+          30.02
+        ],
+        "target_before_opposing": [
+          313,
+          54.62
+        ],
+        "opposing_before_target": [
+          140,
+          24.43
+        ]
+      },
+      "target_2_stats": {
+        "events": 573,
+        "sequence": {
+          "target_only": [
+            184,
+            32.11
+          ],
+          "target_first": [
+            28,
+            4.89
+          ],
+          "opposing_first": [
+            37,
+            6.46
+          ],
+          "opposing_only": [
+            238,
+            41.54
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            86,
+            15.01
+          ]
+        },
+        "target_hit_anytime_day3": [
+          249,
+          43.46
+        ],
+        "opposing_hit_anytime_day3": [
+          303,
+          52.88
+        ],
+        "target_before_opposing": [
+          212,
+          37.0
+        ],
+        "opposing_before_target": [
+          275,
+          47.99
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        202,
+        35.25
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        271,
+        47.29
+      ],
+      "day3_consolidated_inside_day2_range": [
+        120,
+        20.94
+      ],
+      "day3_consolidated_inside_day1_range": [
+        86,
+        15.01
+      ],
+      "day3_green_close": [
+        293,
+        51.13
+      ]
+    },
+    "bullish_displacement": {
+      "setup": "Day2 close > Day1 high. No body or close-position filter. Day3 only.",
+      "target": "Day2 high",
+      "opposing": "Day2 low",
+      "target_stats": {
+        "events": 650,
+        "sequence": {
+          "target_only": [
+            399,
+            61.38
+          ],
+          "target_first": [
+            35,
+            5.38
+          ],
+          "opposing_first": [
+            11,
+            1.69
+          ],
+          "opposing_only": [
+            85,
+            13.08
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            120,
+            18.46
+          ]
+        },
+        "target_hit_anytime_day3": [
+          445,
+          68.46
+        ],
+        "opposing_hit_anytime_day3": [
+          131,
+          20.15
+        ],
+        "target_before_opposing": [
+          434,
+          66.77
+        ],
+        "opposing_before_target": [
+          96,
+          14.77
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        229,
+        35.23
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        374,
+        57.54
+      ],
+      "day3_consolidated_inside_day2_range": [
+        120,
+        18.46
+      ],
+      "day3_green_close": [
+        321,
+        49.38
+      ]
+    }
+  },
+  {
+    "symbol": "LTC",
+    "source": "Binance LTCUSDT 1h candles rebuilt into UTC daily candles",
+    "hourly_first": "2017-12-14 00:00:00+00:00",
+    "hourly_last": "2026-06-24 23:00:00+00:00",
+    "hourly_candles": 74088,
+    "daily_first": "2017-12-14",
+    "daily_last": "2026-06-24",
+    "complete_daily_candles": 3087,
+    "bullish_sweep_reclaim": {
+      "setup": "Day2 low < Day1 low and Day2 close > Day1 low. Day3 only.",
+      "target_1": "Day2 high",
+      "target_2": "Day1 high",
+      "opposing_1": "Day2 low",
+      "opposing_2": "Day1 low",
+      "target_1_stats": {
+        "events": 733,
+        "sequence": {
+          "target_only": [
+            337,
+            45.98
+          ],
+          "target_first": [
+            40,
+            5.46
+          ],
+          "opposing_first": [
+            17,
+            2.32
+          ],
+          "opposing_only": [
+            185,
+            25.24
+          ],
+          "same_hour_ambiguous": [
+            1,
+            0.14
+          ],
+          "neither": [
+            153,
+            20.87
+          ]
+        },
+        "target_hit_anytime_day3": [
+          395,
+          53.89
+        ],
+        "opposing_hit_anytime_day3": [
+          243,
+          33.15
+        ],
+        "target_before_opposing": [
+          377,
+          51.43
+        ],
+        "opposing_before_target": [
+          202,
+          27.56
+        ]
+      },
+      "target_2_stats": {
+        "events": 733,
+        "sequence": {
+          "target_only": [
+            201,
+            27.42
+          ],
+          "target_first": [
+            39,
+            5.32
+          ],
+          "opposing_first": [
+            39,
+            5.32
+          ],
+          "opposing_only": [
+            326,
+            44.47
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            128,
+            17.46
+          ]
+        },
+        "target_hit_anytime_day3": [
+          279,
+          38.06
+        ],
+        "opposing_hit_anytime_day3": [
+          404,
+          55.12
+        ],
+        "target_before_opposing": [
+          240,
+          32.74
+        ],
+        "opposing_before_target": [
+          365,
+          49.8
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        264,
+        36.02
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        325,
+        44.34
+      ],
+      "day3_consolidated_inside_day2_range": [
+        153,
+        20.87
+      ],
+      "day3_consolidated_inside_day1_range": [
+        128,
+        17.46
+      ],
+      "day3_green_close": [
+        367,
+        50.07
+      ]
+    },
+    "bullish_displacement": {
+      "setup": "Day2 close > Day1 high. No body or close-position filter. Day3 only.",
+      "target": "Day2 high",
+      "opposing": "Day2 low",
+      "target_stats": {
+        "events": 699,
+        "sequence": {
+          "target_only": [
+            403,
+            57.65
+          ],
+          "target_first": [
+            64,
+            9.16
+          ],
+          "opposing_first": [
+            8,
+            1.14
+          ],
+          "opposing_only": [
+            94,
+            13.45
+          ],
+          "same_hour_ambiguous": [
+            0,
+            0.0
+          ],
+          "neither": [
+            130,
+            18.6
+          ]
+        },
+        "target_hit_anytime_day3": [
+          475,
+          67.95
+        ],
+        "opposing_hit_anytime_day3": [
+          166,
+          23.75
+        ],
+        "target_before_opposing": [
+          467,
+          66.81
+        ],
+        "opposing_before_target": [
+          102,
+          14.59
+        ]
+      },
+      "day3_hit_50pct_range_before_t1": [
+        257,
+        36.77
+      ],
+      "day3_hit_50pct_range_same_hour_or_before_t1": [
+        369,
+        52.79
+      ],
+      "day3_consolidated_inside_day2_range": [
+        130,
+        18.6
+      ],
+      "day3_green_close": [
+        308,
+        44.06
+      ]
+    }
+  }
+]
