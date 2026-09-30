@@ -1,0 +1,475 @@
+From f043105ed8520aa3f942bafd249f4cf7417dbf3d Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 30 Sep 2026 22:44:17 +0000
+Subject: [PATCH] Simplify ICT B-Tier rules and add Binance universe builder;
+ remove PMEX support
+
+---
+ .github/workflows/monthly_scan.yml |  2 +-
+ .gitignore                         | 24 ++++++++++
+ build_binance_universe.py          | 76 ++++++++++++++++++++++++++++++
+ crypto_scanner/bias_runner.py      |  9 ----
+ crypto_scanner/config.py           |  1 -
+ crypto_scanner/ict.py              | 75 +++++++++++++++++++----------
+ crypto_scanner/pmex_config.py      | 17 -------
+ crypto_scanner/runner.py           | 15 ++----
+ pmex_data/.gitkeep                 |  1 -
+ scanner.py                         |  2 +-
+ tests/test_bias_runner.py          |  6 +--
+ tests/test_ict.py                  | 33 ++++++++++---
+ 12 files changed, 184 insertions(+), 77 deletions(-)
+ create mode 100644 build_binance_universe.py
+ delete mode 100644 crypto_scanner/pmex_config.py
+ delete mode 100644 pmex_data/.gitkeep
+
+diff --git a/.github/workflows/monthly_scan.yml b/.github/workflows/monthly_scan.yml
+index abd6a4d..4003f53 100644
+--- a/.github/workflows/monthly_scan.yml
++++ b/.github/workflows/monthly_scan.yml
+@@ -49,7 +49,7 @@ jobs:
+       - name: Run scanner
+         env:
+           PYTHONPATH: .
+-          SCAN_MODE: crypto_pmex
++          SCAN_MODE: crypto
+           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
+           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+diff --git a/.gitignore b/.gitignore
+index a160f49..931111e 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,27 @@
+ __pycache__/
+ *.py[cod]
+ .pytest_cache/
++
++# Local monthly backtest runners and generated reports (not library code)
++run_jan2026.py
++run_feb2026.py
++run_feb2026_v2.py
++run_feb2026_final.py
++run_mar2026.py
++run_apr2026.py
++run_may2026.py
++run_may2026_v3.py
++run_jun2026.py
++run_jul2026.py
++run_aug2026.py
++run_sep2026.py
++run_oct2026.py
++run_nov2026.py
++run_dec2026.py
++run_watchlist_corr.py
++make_july_top100_pdf.py
++reports/*.xlsx
++reports/*.csv
++reports/*.md
++reports/*.pdf
++pmex_data/
+diff --git a/build_binance_universe.py b/build_binance_universe.py
+new file mode 100644
+index 0000000..0eab5fe
+--- /dev/null
++++ b/build_binance_universe.py
+@@ -0,0 +1,76 @@
++"""Build the trading universe from Binance top USDT pairs by 24h volume.
++
++Uses data-api.binance.vision (the public Binance Vision data endpoint) because
++api.binance.com geo-blocks some regions with HTTP 451. Returns the top N USDT
++spot pairs by 24h USDT quote volume.
++"""
++from __future__ import annotations
++
++import os
++import sys
++from dataclasses import dataclass
++
++import requests
++
++VISION = "https://data-api.binance.vision/api/v3"
++
++
++@dataclass(frozen=True)
++class BinancePair:
++    symbol: str
++    base: str
++    quote: str
++    spot: bool
++    quote_volume_24h: float
++
++
++def _get_exchange_info() -> list[dict]:
++    url = f"{VISION}/exchangeInfo"
++    r = requests.get(url, timeout=15)
++    r.raise_for_status()
++    return r.json().get("symbols", [])
++
++
++def _get_24h_ticker() -> dict[str, float]:
++    url = f"{VISION}/ticker/24hr"
++    r = requests.get(url, timeout=15)
++    r.raise_for_status()
++    return {t["symbol"]: float(t.get("quoteVolume", 0.0) or 0.0) for t in r.json()}
++
++
++def get_binance_universe(limit: int = 350) -> list[BinancePair]:
++    """Return top `limit` USDT spot pairs ranked by 24h USDT volume."""
++    pairs: list[BinancePair] = []
++    ticker = _get_24h_ticker()
++    for info in _get_exchange_info():
++        if info.get("status") != "TRADING":
++            continue
++        if not info.get("isSpotTradingAllowed"):
++            continue
++        quote = info.get("quoteAsset")
++        if quote != "USDT":
++            continue
++        symbol = info.get("symbol")
++        base = info.get("baseAsset")
++        if not symbol or not base:
++            continue
++        vol = ticker.get(symbol, 0.0)
++        pairs.append(
++            BinancePair(
++                symbol=symbol,
++                base=base,
++                quote=quote,
++                spot=True,
++                quote_volume_24h=vol,
++            )
++        )
++    pairs.sort(key=lambda p: p.quote_volume_24h, reverse=True)
++    return pairs[:limit]
++
++
++if __name__ == "__main__":
++    limit = int(os.getenv("UNIVERSE_LIMIT", "350"))
++    top = get_binance_universe(limit=limit)
++    print(f"Top {len(top)} Binance USDT spot pairs by 24h USDT volume:")
++    for i, p in enumerate(top, start=1):
++        print(f"{i:>4}  {p.base:<12}  {p.symbol:<16}  vol24h={p.quote_volume_24h:>20,.0f} USDT")
+diff --git a/crypto_scanner/bias_runner.py b/crypto_scanner/bias_runner.py
+index 5f0a038..4423e2c 100644
+--- a/crypto_scanner/bias_runner.py
++++ b/crypto_scanner/bias_runner.py
+@@ -7,7 +7,6 @@ import pandas as pd
+ from .config import MARKET_BIAS_HEADERS, MARKET_STATUS_HEADERS, SETTINGS
+ from .ict import check_ict_logic
+ from .market_data import LoadedMarketData, MarketInstrument, load_market_data, status_row
+-from .pmex_config import pmex_instruments
+ from .psx_config import psx_instruments
+ from .session_status import freshness_is_usable, freshness_note
+ from .timeframes import resample_ohlc
+@@ -164,20 +163,12 @@ def scan_market_group(
+     return bias_tabs, status_tabs
+ 
+ 
+-def scan_pmex(now_utc: pd.Timestamp | None = None):
+-    return scan_market_group(pmex_instruments(), "PMEX", now_utc)
+-
+-
+ def scan_psx(now_utc: pd.Timestamp | None = None):
+     return scan_market_group(psx_instruments(), "PSX", now_utc)
+ 
+ 
+ def scan_markets(mode: str, now_utc: pd.Timestamp | None = None) -> dict[str, tuple[list[str], list[list[Any]]]]:
+     tabs: dict[str, tuple[list[str], list[list[Any]]]] = {}
+-    if mode in {"pmex", "markets", "all"}:
+-        bias, status = scan_pmex(now_utc)
+-        tabs.update(bias)
+-        tabs.update(status)
+     if mode in {"psx", "markets", "all"}:
+         bias, status = scan_psx(now_utc)
+         tabs.update(bias)
+diff --git a/crypto_scanner/config.py b/crypto_scanner/config.py
+index 7a16457..3828a3e 100644
+--- a/crypto_scanner/config.py
++++ b/crypto_scanner/config.py
+@@ -14,7 +14,6 @@ class Settings:
+     weekly_coin_limit: int = int(os.getenv("WEEKLY_COIN_LIMIT", "100"))
+     sleep_seconds: float = float(os.getenv("SCAN_SLEEP_SECONDS", "1"))
+     scan_mode: str = os.getenv("SCAN_MODE", "crypto").lower()
+-    pmex_data_dir: str = os.getenv("PMEX_DATA_DIR", "pmex_data")
+     psx_data_dir: str = os.getenv("PSX_DATA_DIR", "psx_data")
+     auto_market_data: bool = os.getenv("AUTO_MARKET_DATA", "true").lower() in {"1", "true", "yes"}
+ 
+diff --git a/crypto_scanner/ict.py b/crypto_scanner/ict.py
+index f74e67e..ebcbd33 100644
+--- a/crypto_scanner/ict.py
++++ b/crypto_scanner/ict.py
+@@ -6,17 +6,37 @@ from .models import IctSignal
+ 
+ 
+ def check_ict_logic(df: pd.DataFrame | None) -> IctSignal:
++    """Simple 2-candle ICT detector.
++
++    Patterns (last completed candle vs the one before it):
++
++    A-Tier (Sniper) -- Liquidity Sweep at the right zone
++      Bullish: candle dipped below prev low (stop hunt on shorts), closed back
++               above it, and closed in the LOWER half of its own range (discount).
++      Bearish: candle spiked above prev high (stop hunt on longs), closed back
++               below it, and closed in the UPPER half of its own range (premium).
++
++    B-Tier (Standard) -- Displacement (clean breakout/breakdown)
++      Bullish: close > previous high (price broke out).
++      Bearish: close < previous low (price broke down).
++      That's it. No extra body/wick/zone filters -- a close past the prior
++      barrier is itself the proof of momentum.
++
++    C-Tier (Ignore) -- everything else.
++      Sweeps that fired but closed in the wrong half (bullish at premium or
++      bearish at discount) still report their bias but stay C-Tier ("wait for
++      price to come back to the value zone").
++    """
+     if df is None or len(df) < 2:
+         return IctSignal(False, "Neutral", None, "C-Tier (Ignore)")
+ 
+     candle = df.iloc[-1]
+     prev = df.iloc[-2]
+     candle_range = float(candle["high"] - candle["low"])
+-    body = abs(float(candle["close"] - candle["open"]))
+-
+     if candle_range <= 0:
+         return IctSignal(False, "Neutral", None, "C-Tier (Ignore)")
+ 
++    # Sweep: stop-hunt + reclaim/reject
+     swept_low = candle["low"] < prev["low"]
+     reclaimed_low = candle["close"] > prev["low"]
+     swept_high = candle["high"] > prev["high"]
+@@ -25,31 +45,34 @@ def check_ict_logic(df: pd.DataFrame | None) -> IctSignal:
+     bullish_sweep = bool(swept_low and reclaimed_low)
+     bearish_sweep = bool(swept_high and rejected_high)
+ 
+-    strong_body = body >= candle_range * 0.60
+-    close_top_quarter = candle["close"] >= candle["low"] + (candle_range * 0.75)
+-    close_bottom_quarter = candle["close"] <= candle["low"] + (candle_range * 0.25)
++    # Displacement: simple close beyond prior high/low
++    bullish_displacement = bool(candle["close"] > prev["high"])
++    bearish_displacement = bool(candle["close"] < prev["low"])
+ 
+-    bullish_displacement = bool(candle["close"] > prev["high"] and strong_body and close_top_quarter)
+-    bearish_displacement = bool(candle["close"] < prev["low"] and strong_body and close_bottom_quarter)
+-
+-    midpoint = candle["low"] + (candle_range * 0.5)
++    # Valuation (just for context/reporting)
++    midpoint = candle["low"] + candle_range * 0.5
+     valuation = "Discount" if candle["close"] < midpoint else "Premium"
+ 
++    # --- Tier grading (priority order: A -> B -> C) ---
++    # A-Tier: sweep in the favorable half (stop-hunt + reclaim + good zone)
++    if bullish_sweep and valuation == "Discount":
++        return IctSignal(True, "Bullish Liquidity Sweep", valuation, "A-Tier (Sniper)")
++    if bearish_sweep and valuation == "Premium":
++        return IctSignal(True, "Bearish Liquidity Sweep", valuation, "A-Tier (Sniper)")
++
++    # B-Tier: simple close beyond prev high/low (displacement / breakout)
++    # This fires even if a sweep happened on the other side -- closing past the
++    # prior barrier confirms momentum regardless of whether there was a wick.
++    if bullish_displacement:
++        return IctSignal(True, "Bullish Displacement", valuation, "B-Tier (Standard)")
++    if bearish_displacement:
++        return IctSignal(True, "Bearish Displacement", valuation, "B-Tier (Standard)")
++
++    # C-Tier: sweep happened but price is in the wrong half (bias known,
++    # wait for a pullback to the value zone), or no pattern at all.
+     if bullish_sweep:
+-        bias = "Bullish Liquidity Sweep"
+-    elif bullish_displacement:
+-        bias = "Bullish Displacement"
+-    elif bearish_sweep:
+-        bias = "Bearish Liquidity Sweep"
+-    elif bearish_displacement:
+-        bias = "Bearish Displacement"
+-    else:
+-        return IctSignal(False, "Neutral", valuation, "C-Tier (Ignore)")
+-
+-    grade = "C-Tier (Ignore)"
+-    if (bullish_sweep or bullish_displacement) and valuation == "Discount":
+-        grade = "A-Tier (Sniper)" if bullish_sweep else "B-Tier (Standard)"
+-    elif (bearish_sweep or bearish_displacement) and valuation == "Premium":
+-        grade = "A-Tier (Sniper)" if bearish_sweep else "B-Tier (Standard)"
+-
+-    return IctSignal(True, bias, valuation, grade)
++        return IctSignal(True, "Bullish Liquidity Sweep", valuation, "C-Tier (Ignore)")
++    if bearish_sweep:
++        return IctSignal(True, "Bearish Liquidity Sweep", valuation, "C-Tier (Ignore)")
++
++    return IctSignal(False, "Neutral", valuation, "C-Tier (Ignore)")
+diff --git a/crypto_scanner/pmex_config.py b/crypto_scanner/pmex_config.py
+deleted file mode 100644
+index 32120b3..0000000
+--- a/crypto_scanner/pmex_config.py
++++ /dev/null
+@@ -1,17 +0,0 @@
+-from __future__ import annotations
+-
+-from .config import SETTINGS
+-from .market_data import MarketInstrument
+-
+-
+-def pmex_instruments() -> list[MarketInstrument]:
+-    data_dir = SETTINGS.pmex_data_dir
+-    return [
+-        MarketInstrument("XAUUSD", "Gold", "PMEX Metals", "PMEX Core", "XAUUSD.csv", data_dir, "Gold clients / intraday / scalpers", "Review", "Yahoo proxy data; confirm exact PMEX contract terms before execution. Futures/margin needs Shariah review.", 5, "GC=F"),
+-        MarketInstrument("XAGUSD", "Silver", "PMEX Metals", "PMEX Core", "XAGUSD.csv", data_dir, "Precious metals clients", "Review", "Yahoo proxy data; silver can move sharper than gold; keep risk tight.", 5, "SI=F"),
+-        MarketInstrument("WTI", "Crude Oil", "PMEX Energy", "PMEX Core", "WTI.csv", data_dir, "Advanced crude clients", "Review", "Yahoo proxy data; headline-sensitive; reduce size around inventories/OPEC/geopolitics.", 5, "CL=F"),
+-        MarketInstrument("DXY", "Dollar Index Proxy", "Macro", "PMEX Macro Filter", "DXY.csv", data_dir, "Macro filter", "Review", "Yahoo proxy data; use as context for gold/silver/currencies.", 5, "DX-Y.NYB"),
+-        MarketInstrument("EURUSD", "EUR/USD", "FX", "PMEX FX", "EURUSD.csv", data_dir, "FX clients", "Review", "Yahoo proxy data; FX/margin exposure needs separate review; use risk-defined scenarios.", 5, "EURUSD=X"),
+-        MarketInstrument("GBPUSD", "GBP/USD", "FX", "PMEX FX", "GBPUSD.csv", data_dir, "FX clients", "Review", "Yahoo proxy data; FX/margin exposure needs separate review; use risk-defined scenarios.", 5, "GBPUSD=X"),
+-        MarketInstrument("USDJPY", "USD/JPY", "FX", "PMEX FX", "USDJPY.csv", data_dir, "FX clients", "Review", "Yahoo proxy data; FX/margin exposure needs separate review; use risk-defined scenarios.", 5, "JPY=X"),
+-    ]
+diff --git a/crypto_scanner/runner.py b/crypto_scanner/runner.py
+index dc9f0e5..a1cf457 100644
+--- a/crypto_scanner/runner.py
++++ b/crypto_scanner/runner.py
+@@ -6,7 +6,7 @@ import time
+ import pandas as pd
+ 
+ from .clients import get_defillama_context, get_top_coins, get_waterfall_data
+-from .bias_runner import scan_markets, scan_pmex
++from .bias_runner import scan_markets
+ from .config import RISK_HEADERS, SETTINGS
+ from .ict import check_ict_logic
+ from .models import ScannerResult
+@@ -91,19 +91,14 @@ def scan(now_utc: pd.Timestamp | None = None, sleep_fn=time.sleep) -> tuple[dict
+ 
+ def main() -> None:
+     mode = os.getenv("SCAN_MODE", SETTINGS.scan_mode).strip().lower()
+-    if mode not in {"crypto", "pmex", "psx", "markets", "all", "crypto_pmex"}:
+-        raise ValueError("SCAN_MODE must be one of crypto, pmex, psx, markets, all, crypto_pmex.")
++    if mode not in {"crypto", "psx", "markets", "all"}:
++        raise ValueError("SCAN_MODE must be one of crypto, psx, markets, all.")
+ 
+-    if mode in {"crypto", "all", "crypto_pmex"}:
++    if mode in {"crypto", "all"}:
+         base_tabs, risk_tabs, summary_tab, summary_rows = scan()
+         deliver_outputs(base_tabs, risk_tabs, summary_tab, summary_rows)
+ 
+-    if mode == "crypto_pmex":
+-        pmex_bias_tabs, _ = scan_pmex()
+-        deliver_custom_tabs(pmex_bias_tabs)
+-        return
+-
+-    if mode in {"pmex", "psx", "markets", "all"}:
++    if mode in {"psx", "markets", "all"}:
+         market_tabs = scan_markets(mode)
+         deliver_custom_tabs(market_tabs)
+ 
+diff --git a/pmex_data/.gitkeep b/pmex_data/.gitkeep
+deleted file mode 100644
+index 8b13789..0000000
+--- a/pmex_data/.gitkeep
++++ /dev/null
+@@ -1 +0,0 @@
+-
+diff --git a/scanner.py b/scanner.py
+index c1116be..a66f4d8 100644
+--- a/scanner.py
++++ b/scanner.py
+@@ -6,7 +6,7 @@ if __name__ == "__main__":
+     parser = argparse.ArgumentParser(description="Operation Mizan scanner")
+     parser.add_argument(
+         "--mode",
+-        choices=["crypto", "pmex", "psx", "markets", "all", "crypto_pmex"],
++        choices=["crypto", "psx", "markets", "all"],
+         help="Override SCAN_MODE for this run.",
+     )
+     args = parser.parse_args()
+diff --git a/tests/test_bias_runner.py b/tests/test_bias_runner.py
+index 70eee17..7a65ba4 100644
+--- a/tests/test_bias_runner.py
++++ b/tests/test_bias_runner.py
+@@ -58,15 +58,12 @@ def test_psx_kmi_universe_marks_kmi_pass():
+     assert instruments["SYS"].shariah_status == "KMI Pass"
+ 
+ 
+-def test_scan_mode_markets_runs_pmex_and_psx_status_tabs(tmp_path, monkeypatch):
+-    monkeypatch.setenv("PMEX_DATA_DIR", str(tmp_path / "pmex"))
++def test_scan_mode_markets_runs_psx_status_tabs(tmp_path, monkeypatch):
+     monkeypatch.setenv("PSX_DATA_DIR", str(tmp_path / "psx"))
+ 
+     tabs = scan_markets("markets", pd.Timestamp("2026-06-19 13:00:00Z"))
+ 
+-    assert "PMEX_Update_Status" in tabs
+     assert "PSX_Update_Status" in tabs
+-    assert "PMEX_Monthly_Bias" in tabs
+     assert "PSX_Monthly_Bias" in tabs
+ 
+ 
+@@ -74,4 +71,3 @@ def test_scan_mode_psx_runs_only_psx_tabs():
+     tabs = scan_markets("psx", pd.Timestamp("2026-06-19 13:00:00Z"))
+ 
+     assert "PSX_Update_Status" in tabs
+-    assert "PMEX_Update_Status" not in tabs
+diff --git a/tests/test_ict.py b/tests/test_ict.py
+index c880518..8e9c2fb 100644
+--- a/tests/test_ict.py
++++ b/tests/test_ict.py
+@@ -21,7 +21,7 @@ def test_bullish_sweep_discount_is_a_tier():
+     assert signal.grade == "A-Tier (Sniper)"
+ 
+ 
+-def test_bullish_displacement_requires_strong_body_and_top_close():
++def test_bullish_displacement_fires_on_close_beyond_prior_high():
+     df = frame(
+         [
+             [100, 110, 90, 100],
+@@ -32,9 +32,10 @@ def test_bullish_displacement_requires_strong_body_and_top_close():
+     signal = check_ict_logic(df)
+     assert signal.qualified
+     assert signal.bias == "Bullish Displacement"
++    assert signal.grade == "B-Tier (Standard)"
+ 
+ 
+-def test_weak_close_above_high_is_not_displacement():
++def test_close_above_prior_high_is_displacement_even_with_small_body_or_poor_position():
+     df = frame(
+         [
+             [100, 110, 90, 100],
+@@ -43,17 +44,37 @@ def test_weak_close_above_high_is_not_displacement():
+         ]
+     )
+     signal = check_ict_logic(df)
+-    assert not signal.qualified
++    assert signal.qualified
++    assert signal.bias == "Bullish Displacement"
++    assert signal.grade == "B-Tier (Standard)"
++    assert signal.valuation == "Premium"
+ 
+ 
+-def test_c_tier_signal_is_retained_when_valuation_misaligned():
++def test_sweep_at_premium_is_c_tier_with_bias_preserved():
++    # Bullish sweep (wick below prev low then close back above) but close sits
++    # in the TOP half of the candle's range (premium) and does NOT break the
++    # prior high -> C-Tier; bias is still surfaced for watchlists.
+     df = frame(
+         [
+             [100, 110, 90, 100],
+-            [100, 105, 95, 100],
+-            [100, 125, 94, 121],
++            [100, 110, 95, 105],
++            [102, 108, 90, 105],
+         ]
+     )
+     signal = check_ict_logic(df)
+     assert signal.qualified
++    assert signal.bias == "Bullish Liquidity Sweep"
+     assert signal.grade == "C-Tier (Ignore)"
++    assert signal.valuation == "Premium"
++
++
++def test_neutral_when_no_sweep_and_no_displacement():
++    df = frame(
++        [
++            [100, 110, 90, 100],
++            [100, 105, 95, 100],
++            [99, 104, 96, 101],
++        ]
++    )
++    signal = check_ict_logic(df)
++    assert not signal.qualified
+-- 
+2.43.0
+
