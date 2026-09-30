@@ -1,3 +1,27 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+
+# Local monthly backtest runners and generated reports (not library code)
+run_jan2026.py
+run_feb2026.py
+run_feb2026_v2.py
+run_feb2026_final.py
+run_mar2026.py
+run_apr2026.py
+run_may2026.py
+run_may2026_v3.py
+run_jun2026.py
+run_jul2026.py
+run_aug2026.py
+run_sep2026.py
+run_oct2026.py
+run_nov2026.py
+run_dec2026.py
+run_watchlist_corr.py
+make_july_top100_pdf.py
+reports/*.xlsx
+reports/*.csv
+reports/*.md
+reports/*.pdf
+pmex_data/

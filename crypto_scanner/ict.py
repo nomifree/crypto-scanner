@@ -6,17 +6,37 @@ from .models import IctSignal
 
 
 def check_ict_logic(df: pd.DataFrame | None) -> IctSignal:
+    """Simple 2-candle ICT detector.
+
+    Patterns (last completed candle vs the one before it):
+
+    A-Tier (Sniper) -- Liquidity Sweep at the right zone
+      Bullish: candle dipped below prev low (stop hunt on shorts), closed back
+               above it, and closed in the LOWER half of its own range (discount).
+      Bearish: candle spiked above prev high (stop hunt on longs), closed back
+               below it, and closed in the UPPER half of its own range (premium).
+
+    B-Tier (Standard) -- Displacement (clean breakout/breakdown)
+      Bullish: close > previous high (price broke out).
+      Bearish: close < previous low (price broke down).
+      That's it. No extra body/wick/zone filters -- a close past the prior
+      barrier is itself the proof of momentum.
+
+    C-Tier (Ignore) -- everything else.
+      Sweeps that fired but closed in the wrong half (bullish at premium or
+      bearish at discount) still report their bias but stay C-Tier ("wait for
+      price to come back to the value zone").
+    """
     if df is None or len(df) < 2:
         return IctSignal(False, "Neutral", None, "C-Tier (Ignore)")
 
     candle = df.iloc[-1]
     prev = df.iloc[-2]
     candle_range = float(candle["high"] - candle["low"])
-    body = abs(float(candle["close"] - candle["open"]))
-
     if candle_range <= 0:
         return IctSignal(False, "Neutral", None, "C-Tier (Ignore)")
 
+    # Sweep: stop-hunt + reclaim/reject
     swept_low = candle["low"] < prev["low"]
     reclaimed_low = candle["close"] > prev["low"]
     swept_high = candle["high"] > prev["high"]
@@ -25,31 +45,34 @@ def check_ict_logic(df: pd.DataFrame | None) -> IctSignal:
     bullish_sweep = bool(swept_low and reclaimed_low)
     bearish_sweep = bool(swept_high and rejected_high)
 
-    strong_body = body >= candle_range * 0.60
-    close_top_quarter = candle["close"] >= candle["low"] + (candle_range * 0.75)
-    close_bottom_quarter = candle["close"] <= candle["low"] + (candle_range * 0.25)
+    # Displacement: simple close beyond prior high/low
+    bullish_displacement = bool(candle["close"] > prev["high"])
+    bearish_displacement = bool(candle["close"] < prev["low"])
 
-    bullish_displacement = bool(candle["close"] > prev["high"] and strong_body and close_top_quarter)
-    bearish_displacement = bool(candle["close"] < prev["low"] and strong_body and close_bottom_quarter)
-
-    midpoint = candle["low"] + (candle_range * 0.5)
+    # Valuation (just for context/reporting)
+    midpoint = candle["low"] + candle_range * 0.5
     valuation = "Discount" if candle["close"] < midpoint else "Premium"
 
+    # --- Tier grading (priority order: A -> B -> C) ---
+    # A-Tier: sweep in the favorable half (stop-hunt + reclaim + good zone)
+    if bullish_sweep and valuation == "Discount":
+        return IctSignal(True, "Bullish Liquidity Sweep", valuation, "A-Tier (Sniper)")
+    if bearish_sweep and valuation == "Premium":
+        return IctSignal(True, "Bearish Liquidity Sweep", valuation, "A-Tier (Sniper)")
+
+    # B-Tier: simple close beyond prev high/low (displacement / breakout)
+    # This fires even if a sweep happened on the other side -- closing past the
+    # prior barrier confirms momentum regardless of whether there was a wick.
+    if bullish_displacement:
+        return IctSignal(True, "Bullish Displacement", valuation, "B-Tier (Standard)")
+    if bearish_displacement:
+        return IctSignal(True, "Bearish Displacement", valuation, "B-Tier (Standard)")
+
+    # C-Tier: sweep happened but price is in the wrong half (bias known,
+    # wait for a pullback to the value zone), or no pattern at all.
     if bullish_sweep:
-        bias = "Bullish Liquidity Sweep"
-    elif bullish_displacement:
-        bias = "Bullish Displacement"
-    elif bearish_sweep:
-        bias = "Bearish Liquidity Sweep"
-    elif bearish_displacement:
-        bias = "Bearish Displacement"
-    else:
-        return IctSignal(False, "Neutral", valuation, "C-Tier (Ignore)")
+        return IctSignal(True, "Bullish Liquidity Sweep", valuation, "C-Tier (Ignore)")
+    if bearish_sweep:
+        return IctSignal(True, "Bearish Liquidity Sweep", valuation, "C-Tier (Ignore)")
 
-    grade = "C-Tier (Ignore)"
-    if (bullish_sweep or bullish_displacement) and valuation == "Discount":
-        grade = "A-Tier (Sniper)" if bullish_sweep else "B-Tier (Standard)"
-    elif (bearish_sweep or bearish_displacement) and valuation == "Premium":
-        grade = "A-Tier (Sniper)" if bearish_sweep else "B-Tier (Standard)"
-
-    return IctSignal(True, bias, valuation, grade)
+    return IctSignal(False, "Neutral", valuation, "C-Tier (Ignore)")

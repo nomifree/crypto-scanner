@@ -7,7 +7,6 @@ import pandas as pd
 from .config import MARKET_BIAS_HEADERS, MARKET_STATUS_HEADERS, SETTINGS
 from .ict import check_ict_logic
 from .market_data import LoadedMarketData, MarketInstrument, load_market_data, status_row
-from .pmex_config import pmex_instruments
 from .psx_config import psx_instruments
 from .session_status import freshness_is_usable, freshness_note
 from .timeframes import resample_ohlc
@@ -164,20 +163,12 @@ def scan_market_group(
     return bias_tabs, status_tabs
 
 
-def scan_pmex(now_utc: pd.Timestamp | None = None):
-    return scan_market_group(pmex_instruments(), "PMEX", now_utc)
-
-
 def scan_psx(now_utc: pd.Timestamp | None = None):
     return scan_market_group(psx_instruments(), "PSX", now_utc)
 
 
 def scan_markets(mode: str, now_utc: pd.Timestamp | None = None) -> dict[str, tuple[list[str], list[list[Any]]]]:
     tabs: dict[str, tuple[list[str], list[list[Any]]]] = {}
-    if mode in {"pmex", "markets", "all"}:
-        bias, status = scan_pmex(now_utc)
-        tabs.update(bias)
-        tabs.update(status)
     if mode in {"psx", "markets", "all"}:
         bias, status = scan_psx(now_utc)
         tabs.update(bias)

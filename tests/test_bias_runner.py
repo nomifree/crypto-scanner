@@ -58,15 +58,12 @@ def test_psx_kmi_universe_marks_kmi_pass():
     assert instruments["SYS"].shariah_status == "KMI Pass"
 
 
-def test_scan_mode_markets_runs_pmex_and_psx_status_tabs(tmp_path, monkeypatch):
-    monkeypatch.setenv("PMEX_DATA_DIR", str(tmp_path / "pmex"))
+def test_scan_mode_markets_runs_psx_status_tabs(tmp_path, monkeypatch):
     monkeypatch.setenv("PSX_DATA_DIR", str(tmp_path / "psx"))
 
     tabs = scan_markets("markets", pd.Timestamp("2026-06-19 13:00:00Z"))
 
-    assert "PMEX_Update_Status" in tabs
     assert "PSX_Update_Status" in tabs
-    assert "PMEX_Monthly_Bias" in tabs
     assert "PSX_Monthly_Bias" in tabs
 
 
@@ -74,4 +71,3 @@ def test_scan_mode_psx_runs_only_psx_tabs():
     tabs = scan_markets("psx", pd.Timestamp("2026-06-19 13:00:00Z"))
 
     assert "PSX_Update_Status" in tabs
-    assert "PMEX_Update_Status" not in tabs
