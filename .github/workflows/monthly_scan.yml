@@ -49,7 +49,7 @@ jobs:
       - name: Run scanner
         env:
           PYTHONPATH: .
-          SCAN_MODE: crypto_pmex
+          SCAN_MODE: crypto
           SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
           COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
